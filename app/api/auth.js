@@ -1,12 +1,5 @@
 import request from 'superagent';
-
-const resolveRequest = function(request){
-  return new Promise((resolve, reject) => {
-    request.end((error, res) => {
-      error ? reject(error) : resolve(res.body)
-    })
-  })
-};
+import resolveRequest from './requestUtils'
 
 export function requestSpotifyToken(options, code) {
   let apiRequest = request
