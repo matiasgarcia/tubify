@@ -31,7 +31,7 @@ function extractTokenData(data){
     tokenData.refreshToken = data.refresh_token;
   }
 
-  tokenData.access_token = data.access_token;
+  tokenData.accessToken = data.access_token;
   tokenData.expiresAt = expirationDate;
 
   return tokenData;
