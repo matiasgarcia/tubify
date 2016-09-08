@@ -22,6 +22,10 @@ app.use(wdm);
 
 app.use(webpackHotMiddleware(compiler));
 
+app.get('/callback', (request, response) => {
+  response.send('Loading app, please wait');
+});
+
 const server = app.listen(PORT, 'localhost', err => {
   if (err) {
     console.error(err);
