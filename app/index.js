@@ -5,15 +5,11 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import './app.global.css';
-import storage from 'electron-json-storage';
-import { fetchUserInfo } from './actions/auth';
+import { getStoredAuthData } from './utils/authenticationHandler'
 
-const initializePage = function (tokenData){
-  const store = configureStore({auth: {tokenData: tokenData}});
+const initializePage = function (auth){
+  const store = configureStore({auth});
   const history = syncHistoryWithStore(hashHistory, store);
-
-  store.dispatch(fetchUserInfo(tokenData.accessToken));
 
   render(
     <Provider store={store}>
@@ -23,8 +19,6 @@ const initializePage = function (tokenData){
   );
 };
 
-storage.get('auth', function(error, tokenData) {
-  if (error) throw error;
-
-  initializePage(tokenData);
-});
+getStoredAuthData()
+  .then((authenticationData) => initializePage(authenticationData))
+  .catch((error) => {throw error});

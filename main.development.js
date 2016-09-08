@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu, shell } from 'electron';
-import storage from 'electron-json-storage';
-import { requestSpotifyToken } from './app/api/auth'
+import _ from 'lodash';
+import * as authenticationHandler from './app/utils/authenticationHandler'
 
 let menu;
 let template;
@@ -34,6 +34,15 @@ const installExtensions = async () => {
   }
 };
 
+function loadApp(window){
+  window.loadURL(`file://${__dirname}/app/app.html`);
+}
+
+function abortApp(window, error){
+  alert(`Oops! Something went wrong. Error message: ${error}`);
+  window.destroy();
+}
+
 app.on('ready', async () => {
   await installExtensions();
 
@@ -45,14 +54,25 @@ app.on('ready', async () => {
     scopes: ['playlist-read-private', 'playlist-read-collaborative'] // Scopes limit access for OAuth tokens.
   };
 
-  // Build the OAuth consent page URL
   mainWindow = new BrowserWindow({ width: 1024, height: 768, show: false, 'node-integration': false });
-  var spotifyUrl = 'https://accounts.spotify.com/authorize?';
-  var authUrl = spotifyUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes.join(' ') + '&redirect_uri=' + options.redirectUri + '&response_type=code';
-  mainWindow.loadURL(authUrl);
+
+  authenticationHandler.getStoredAuthData()
+    .then((authenticationData) => {
+      if (_.isEmpty(authenticationData)){
+        var spotifyUrl = 'https://accounts.spotify.com/authorize?';
+        var authUrl = spotifyUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes.join(' ') + '&redirect_uri=' + options.redirectUri + '&response_type=code';
+        mainWindow.loadURL(authUrl);
+      } else {
+        return authenticationHandler.refreshAuthenticationData(options)
+          .then((authenticationData) => {
+            loadApp(mainWindow);
+          });
+      }
+    }).catch((error) => abortApp(mainWindow, error));
+
   mainWindow.show();
 
-  function handleCallback (url) {
+  function handleSpotifyAuthCallback (url) {
     if(!url.startsWith(options.redirectUri)){
       return;
     }
@@ -62,22 +82,12 @@ app.on('ready', async () => {
     var error = /\?error=(.+)$/.exec(url);
 
     if (code) {
-      requestSpotifyToken(options, code).then((tokenInfo) => {
-        let parsedTokenInfo = {
-          accessToken: tokenInfo.access_token,
-          refreshToken: tokenInfo.refresh_token,
-          expiresIn: tokenInfo.expires_in
-        };
-        storage.set('auth', parsedTokenInfo, function(error){
-          if (error) throw error;
-
-          mainWindow.loadURL(`file://${__dirname}/app/app.html`);
+      authenticationHandler.authenticate(options, code)
+        .then((authenticationData) => {
+          loadApp(mainWindow);
         });
-      });
     } else if (error) {
-      alert('Oops! Something went wrong and we couldn\'t' +
-        'log you in using Spotify. Please try again.');
-      mainWindow.destroy();
+      abortApp(mainWindow, error);
     }
   }
 
@@ -91,11 +101,11 @@ app.on('ready', async () => {
   });
 
   mainWindow.webContents.on('will-navigate', function (event, url) {
-    handleCallback(url);
+    handleSpotifyAuthCallback(url);
   });
 
   mainWindow.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
-    handleCallback(newUrl);
+    handleSpotifyAuthCallback(newUrl);
   });
 
   if (process.env.NODE_ENV === 'development') {
