@@ -36,6 +36,7 @@ const installExtensions = async () => {
 
 function loadApp(window){
   window.loadURL(`file://${__dirname}/app/app.html`);
+  window.show();
 }
 
 function abortApp(window, error){
@@ -62,6 +63,7 @@ app.on('ready', async () => {
         var spotifyUrl = 'https://accounts.spotify.com/authorize?';
         var authUrl = spotifyUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes.join(' ') + '&redirect_uri=' + options.redirectUri + '&response_type=code';
         mainWindow.loadURL(authUrl);
+        mainWindow.show();
       } else {
         return authenticationHandler.refreshAuthenticationData(options)
           .then((authenticationData) => {
@@ -69,8 +71,6 @@ app.on('ready', async () => {
           });
       }
     }).catch((error) => abortApp(mainWindow, error));
-
-  mainWindow.show();
 
   function handleSpotifyAuthCallback (url) {
     if(!url.startsWith(options.redirectUri)){
