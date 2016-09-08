@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import styles from './Home.css';
 
 
 export default class Home extends Component {
@@ -8,8 +7,7 @@ export default class Home extends Component {
     return (
       <div>
         <div className={styles.container}>
-          <h2>Home</h2>
-          <Link to="/counter">to Counter</Link>
+          <h2>Welcome!</h2>
         </div>
       </div>
     );
