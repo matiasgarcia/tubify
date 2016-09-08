@@ -24,8 +24,8 @@ function setStoredAuthData(authenticationData){
 function getTokenInformation(options, code){
   return requestSpotifyToken(options, code).then((tokenData) => {
     let currentTime = new Date();
-    let expiresInHours = tokenData.expires_in / 60;
-    let expirationDate = currentTime.setHours(currentTime.getHours()+expiresInHours);
+    let expiresIn = tokenData.expires_in;
+    let expirationDate = currentTime.setSeconds(currentTime.getSeconds()+expiresIn);
 
     return {
       accessToken: tokenData.access_token,
