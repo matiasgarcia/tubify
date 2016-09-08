@@ -40,6 +40,7 @@ function loadApp(window){
 }
 
 function abortApp(window, error){
+  console.log(error);
   alert(`Oops! Something went wrong. Error message: ${error}`);
   window.destroy();
 }
