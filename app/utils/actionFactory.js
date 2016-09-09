@@ -1,5 +1,4 @@
 import Spotify from 'spotify-web-api-js';
-import ConstantFactory from './constantFactory'
 
 export default class ActionFactory {
   static buildPendingActionCreator(pendingConstant){
@@ -25,8 +24,7 @@ export default class ActionFactory {
       }
     }
   }
-  static buildSpotifyAction(actionName, apiCall, ...args){
-    let constants = ConstantFactory.buildAsyncFor(actionName);
+  static buildSpotifyAction(constants, apiCall, ...args){
     let spotify = new Spotify();
     let pending = this.buildPendingActionCreator(constants.PENDING);
     let success = this.buildSuccessActionCreator(constants.SUCCESS);
