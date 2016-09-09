@@ -3,7 +3,8 @@ import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../actions/u
 
 const initialState = {
   playlists: [],
-  totalPlaylists: null,
+  totalCount: null,
+  pendingCount: null,
   isFetching: false,
   error: null
 };
@@ -22,14 +23,17 @@ export default function playlists(state = initialState, action) {
           id: playlistData.id,
           name: playlistData.name,
           userId: playlistData.owner.id,
-          totalTracks: playlistData.tracks.total,
+          totalTracksCount: playlistData.tracks.total,
           tracks: [],
           isPublic: playlistData.public
         }
       });
+      let updatedPlaylists = _.concat(state.playlists, newPlaylists);
+      let totalPlaylists = data.total;
       return Object.assign({}, state, {
-        totalPlaylists: data.total,
-        playlists: _.concat(state.playlists, newPlaylists),
+        totalCount: totalPlaylists,
+        pendingCount: totalPlaylists - updatedPlaylists.length,
+        playlists: updatedPlaylists,
         isFetching: false,
         error: null
       });
@@ -54,7 +58,6 @@ export default function playlists(state = initialState, action) {
       });
       let updatedPlaylists = _.cloneDeep(state.playlists);
       let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
-      console.log('Index: ' + index + 'Playlist id: ' + action.data.playlistId);
       let playlist = updatedPlaylists[index];
       playlist.tracks = _.concat(playlist.tracks, tracks);
       return Object.assign({}, state, {
