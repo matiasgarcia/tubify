@@ -24,7 +24,7 @@ export default class ActionFactory {
       }
     }
   }
-  static buildSpotifyAction(constants, apiCall, ...args){
+  static buildSpotifyAction(constants, apiOptions, callbackOptions = {}){
     let spotify = new Spotify();
     let pending = this.buildPendingActionCreator(constants.PENDING);
     let success = this.buildSuccessActionCreator(constants.SUCCESS);
@@ -34,8 +34,11 @@ export default class ActionFactory {
       spotify.setAccessToken(accessToken);
 
       dispatch(pending());
-      spotify[apiCall].apply(spotify, args)
-        .then((data) => dispatch(success(data)))
+      spotify[apiOptions.apiCall].apply(spotify, apiOptions.args)
+        .then((data) => {
+          let processedData = callbackOptions.success ? callbackOptions.success(data) : data;
+          return dispatch(success(processedData))
+        })
         .catch((error) => dispatch(failure(error)))
     }
 
