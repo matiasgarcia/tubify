@@ -18,7 +18,7 @@ export default class UserPlaylist extends Component {
     return (
       <div>
         <ul>
-          { _.map(this.props.playlistsData.playlists, (playlist) => <li>{playlist.name}</li>) }
+          { _.map(this.props.playlistsData.playlists, (playlist) => <li key={playlist.id}>{playlist.name}</li>) }
         </ul>
       </div>
     );
