@@ -6,9 +6,12 @@ import { routerMiddleware, push } from 'react-router-redux';
 import rootReducer from '../reducers';
 
 import * as authActions from '../actions/auth';
+import { fetchUserPlaylists, fetchPlaylistTracks } from '../actions/user';
 
 const actionCreators = {
   ...authActions,
+  fetchUserPlaylists,
+  fetchPlaylistTracks,
   push,
 };
 
