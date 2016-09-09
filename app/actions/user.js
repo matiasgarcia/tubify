@@ -1,5 +1,5 @@
 import ActionFactory from '../utils/actionFactory';
-import ConstantFactory from '../utils/ConstantFactory';
+import ConstantFactory from '../utils/constantFactory';
 
 export const USER_PLAYLIST_CONSTANTS = ConstantFactory.buildAsyncFor('USER_PLAYLISTS');
 export const PLAYLIST_TRACKS_CONSTANTS = ConstantFactory.buildAsyncFor('PLAYLIST_TRACKS');
