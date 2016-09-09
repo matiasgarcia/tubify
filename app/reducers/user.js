@@ -9,10 +9,11 @@ const initialState = {
   error: null
 };
 
-function playlistTracksSucccess(state, action){
+function playlistTracksSuccess(state, action){
   let tracks = _.map(action.data.items, (item) => {
     let track = item.track;
     return {
+      id: item.id,
       name: track.name,
       album: track.album.name,
       artists: _.map(track.artists, (artist) => artist.name)
@@ -72,7 +73,7 @@ export default function playlists(state = initialState, action) {
         error: null
       });
     case PLAYLIST_TRACKS_CONSTANTS.SUCCESS:
-      return playlistTracksSucccess(state, action);
+      return playlistTracksSuccess(state, action);
     case PLAYLIST_TRACKS_CONSTANTS.FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
