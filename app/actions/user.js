@@ -1,39 +1,9 @@
-import Spotify from 'spotify-web-api-js';
-
-const spotifyApi = new Spotify();
-
-export const FETCH_PENDING_USER_PLAYLISTS = 'FETCH_PENDING_USER_PLAYLISTS';
-export const FETCH_SUCCESS_USER_PLAYLISTS = 'FETCH_SUCCESS_USER_PLAYLISTS';
-export const FETCH_FAILURE_USER_PLAYLISTS = 'FETCH_FAILURE_USER_PLAYLISTS';
-
-export function fetchPendingUserPlaylists(){
-  return {
-    type: FETCH_PENDING_USER_PLAYLISTS
-  }
-}
-
-export function fetchSuccessUserPlaylists(data){
-  return {
-    type: FETCH_SUCCESS_USER_PLAYLISTS,
-    data: data
-  }
-}
-
-export function fetchFailureUserPlaylists(error){
-  return {
-    type: FETCH_FAILURE_USER_PLAYLISTS,
-    error: error
-  }
-}
+import ActionFactory from '../utils/actionFactory';
 
 export function fetchUserPlaylists(offset = 0, limit = 20){
-  return (dispatch, getState) => {
-    let { accessToken } = getState().auth.tokenData;
-    spotifyApi.setAccessToken(accessToken);
+  return ActionFactory.buildSpotifyAction('USER_PLAYLISTS', 'getUserPlaylists', {offset, limit})
+}
 
-    dispatch(fetchPendingUserPlaylists());
-    spotifyApi.getUserPlaylists({offset, limit})
-      .then((data) => dispatch(fetchSuccessUserPlaylists(data)))
-      .catch((error) => dispatch(fetchFailureUserPlaylists()))
-  }
+export function fetchPlaylistTracks(userId, playlistId, offset = 0, limit = 50){
+  return ActionFactory.buildSpotifyAction('PLAYLIST_TRACKS', 'getPlaylistTracks', userId, playlistId, {offset, limit});
 }
