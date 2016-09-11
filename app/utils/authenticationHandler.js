@@ -78,10 +78,12 @@ export function refreshAuthenticationData(options){
           //Didn't expire yet, get user data again in case storage data changed
           getAuthData(tokenData)
             .then((storedData) => resolve(storedData))
+            .catch((error) => reject(error))
         } else {
           //Token expired, then refresh data
           getRefreshedAccessToken(options, tokenData.refreshToken)
             .then((storedData) => resolve(storedData))
+            .catch((error) => reject(error))
         }
       })
       .catch((error) => {reject(error)})
