@@ -28,7 +28,7 @@ export function fetchPlaylistTracks(userId, playlistId, offset = 0, limit = 100)
 
 export function selectTrack(playlistId, trackId, selected){
   return {
-    type: 'TOGGLE_TRACK_SELECTION',
+    type: TOGGLE_TRACK_SELECTION,
     playlistId,
     trackId,
     selected
@@ -37,7 +37,7 @@ export function selectTrack(playlistId, trackId, selected){
 
 export function selectPlaylist(playlistId, selected){
   return {
-    type: 'TOGGLE_PLAYLIST_SELECTION',
+    type: TOGGLE_PLAYLIST_SELECTION,
     playlistId,
     selected
   }

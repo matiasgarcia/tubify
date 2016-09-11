@@ -7,6 +7,7 @@ export function getStoredAuthData(){
   return new Promise((resolve, reject) => {
     storage.get(AUTH_STORAGE_KEY, function(error, authenticationData){
       if (error) reject(error);
+      console.log('GET DATA: ' + JSON.stringify(authenticationData));
       resolve(authenticationData);
     })
   })
@@ -16,6 +17,7 @@ function setStoredAuthData(authenticationData){
   return new Promise((resolve, reject) => {
     storage.set(AUTH_STORAGE_KEY, authenticationData, function(error, authenticationData){
       if (error) reject(error);
+      console.log('SET DATA: ' + JSON.stringify(authenticationData));
       resolve(authenticationData);
     })
   })

@@ -1,6 +1,16 @@
-import { app, BrowserWindow, Menu, shell } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import _ from 'lodash';
 import * as authenticationHandler from './app/utils/authenticationHandler'
+import { YoutubeSearcher } from './searchers'
+
+let youtube = new YoutubeSearcher({apiKey: 'AIzaSyBaoeeDj56V4Y6s43qW3mEf8XzHKJ-bIjs'});
+ipcMain.on('search-track', (event, track) => {
+  let query = `${track.artists.join(', ')} - ${track.name} `
+  youtube.search(query)
+    .then((sources) => event.sender.send('search-track-done', track, null, sources))
+    .catch((error) => event.sender.send('search-track-done', error, track))
+});
+
 
 let menu;
 let template;

@@ -5,7 +5,7 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import { getStoredAuthData } from './utils/authenticationHandler'
+import { getStoredAuthData } from './utils/authenticationHandler';
 
 const initializePage = function (auth){
   const store = configureStore({auth});
