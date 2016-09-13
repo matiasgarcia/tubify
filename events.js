@@ -2,7 +2,7 @@ import { YoutubeSearcher } from './searchers';
 import { YoutubeDownloader } from './downloaders';
 
 let youtubeSearcher = new YoutubeSearcher({apiKey: 'AIzaSyBaoeeDj56V4Y6s43qW3mEf8XzHKJ-bIjs'});
-let youtubeDownloader = new YoutubeDownloader({downloadPath: '~'});
+let youtubeDownloader = new YoutubeDownloader({downloadPath: '/home/matias'});
 
 export default function loadEvents(ipcMain){
 	ipcMain.on('search-track', (event, track) => {

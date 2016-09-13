@@ -23,7 +23,7 @@ export function requestDownloadTrack(trackToDownload){
 				if(error){
 					reject({error, track})
 				} else {
-					resolve({track})
+					resolve(track)
 				}
 			}
 		})

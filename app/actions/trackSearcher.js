@@ -56,7 +56,7 @@ export function downloadTrackSuccess(track){
 	}
 }
 
-export function downloadTrackFailure({error, track}){
+export function downloadTrackFailure(error, track){
 	return {
 		type: TRACK_DOWNLOAD_FAILURE,
 		error,
