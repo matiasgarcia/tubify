@@ -21,13 +21,14 @@ const initialState = {
 
 export default function apiMeta(state = initialState, action){
 	let newState = Object.assign({}, state);
+	let data = action.data;
 	switch(action.type){
 		case USER_PLAYLIST_CONSTANTS.SUCCESS:
 			return _.merge(newState, {
 				playlists: calculateApiPagination(newState, action)
 			});
 		case PLAYLIST_TRACKS_CONSTANTS.SUCCESS:
-			let playlistsTracks = {playlistsTracks: {}};
+			let playlistTracks = {playlistTracks: {}};
 			playlistTracks[data.playlistId] = calculateApiPagination(newState, action);
 			return _.merge(newState, playlistTracks)
 		default:
