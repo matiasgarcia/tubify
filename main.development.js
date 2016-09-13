@@ -7,6 +7,8 @@ let menu;
 let template;
 let mainWindow = null;
 
+loadEvents(ipcMain);
+
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')(); // eslint-disable-line global-require
 }

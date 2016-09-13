@@ -3,10 +3,13 @@ import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECT
 
 const initialState = {
   playlists: [],
-  totalCount: null,
-  pendingCount: null,
   isFetching: false,
-  error: null
+  error: null,
+  meta: {
+    totalCount: null,
+    pendingCount: null,
+    nextOffset: null
+  }
 };
 
 function playlistTracksSuccess(state, action){
@@ -45,12 +48,17 @@ function userPlaylistsSuccess(state, action){
   });
   let updatedPlaylists = _.concat(state.playlists, newPlaylists);
   let totalPlaylists = data.total;
+  let offsetMatch = /offset=(\d+)/.exec(data.next) || [];
+  let nextRequestOffset = offsetMatch[1];
   return Object.assign({}, state, {
-    totalCount: totalPlaylists,
-    pendingCount: totalPlaylists - updatedPlaylists.length,
     playlists: updatedPlaylists,
     isFetching: false,
-    error: null
+    error: null,
+    meta: {
+      totalCount: totalPlaylists,
+      pendingCount: totalPlaylists - updatedPlaylists.length,
+      nextOffset: nextRequestOffset
+    }
   });
 }
 

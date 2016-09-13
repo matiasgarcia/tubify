@@ -4,26 +4,43 @@ import _ from 'lodash';
 
 class Track extends Component {
   static propTypes = {
-    select: PropTypes.func.isRequired
+    track: PropTypes.object.isRequired,
+    playlistActions: PropTypes.object.isRequired,
+    trackSearchData: PropTypes.object.isRequired,
+    trackSearchActions: PropTypes.object.isRequired
   }
   constructor(props){
     super(props);
     this.onSelectionToggle = this.onSelectionToggle.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
+  }
+  onSearchClick(event){
+    event.preventDefault();
+    this.props.trackSearchActions.searchTrack(this.props.track);
   }
   onSelectionToggle(event){
-    this.props.select(this.props.playlistId, this.props.id, event.target.checked);
+    let props = this.props;
+    props.playlistActions.selectTrack(props.playlistId, props.track.id, event.target.checked);
   }
   render(){
     let props = this.props;
-    return <li><input type="checkbox" checked={props.isSelected} onChange={this.onSelectionToggle}/>{props.name}</li>;
+    let trackSearchData = this.props.trackSearchData[props.track.id];
+    //TODO: Remove DIV, illegal HTML.
+    return (
+      <div>
+        <li><input type="checkbox" checked={props.track.isSelected} onChange={this.onSelectionToggle}/>{props.track.name}</li>
+        <a href="#" onClick={this.onSearchClick}>Search Track</a>
+        <ul>{trackSearchData && _.map(trackSearchData.results, (r) => <li key={r.id}>{r.url}</li>)}</ul>
+      </div>
+    )
   }
 }
 
 class Playlist extends Component {
   static propTypes = {
-    fetchTracks: PropTypes.func.isRequired,
-    selectTrack: PropTypes.func.isRequired,
-    select: PropTypes.func.isRequired
+    playlistActions: PropTypes.object.isRequired,
+    trackSearchData: PropTypes.object.isRequired,
+    trackSearchActions: PropTypes.object.isRequired
   }
   constructor(props){
     super(props);
@@ -31,11 +48,11 @@ class Playlist extends Component {
     this.onSelectionToggle = this.onSelectionToggle.bind(this);
   }
   onSelectionToggle(event){
-    this.props.select(this.props.id, event.target.checked);
+    this.props.playlistActions.selectPlaylist(this.props.id, event.target.checked);
   }
   loadTracks(e){
     e.preventDefault();
-    this.props.fetchTracks(this.props.userId, this.props.id);
+    this.props.playlistActions.fetchPlaylistTracks(this.props.userId, this.props.id);
   }
   render(){
     let tracks = this.props.tracks;
@@ -44,7 +61,13 @@ class Playlist extends Component {
       <div>
         <li><input type="checkbox" checked={areAllSelected} onChange={this.onSelectionToggle}/> {this.props.name} ({this.props.totalTracksCount} tracks)</li> <a href="#" onClick={this.loadTracks}>Load Tracks</a>
         <ul>
-          {_.map(this.props.tracks, (track) => <Track key={track.id} {...track} playlistId={this.props.id} select={this.props.selectTrack}/>)}
+          {_.map(tracks, (track) => <Track 
+            key={track.id} 
+            track={track} 
+            playlistId={this.props.id} 
+            playlistActions={this.props.playlistActions} 
+            trackSearchData={this.props.trackSearchData} 
+            trackSearchActions={this.props.trackSearchActions}/>)}
         </ul>
       </div>
     )
@@ -55,23 +78,36 @@ export default class UserPlaylist extends Component {
   static propTypes = {
     playlistsData: PropTypes.object.isRequired,
     playlistActions: PropTypes.object.isRequired,
-  };
-  loadPlaylists(){
-    this.props.playlistActions.fetchUserPlaylists();
+    trackSearchData: PropTypes.object.isRequired,
+    trackSearchActions: PropTypes.object.isRequired
+  }
+  constructor(props){
+    super(props);
+    this.onLoadMoreClick = this.onLoadMoreClick.bind(this);
+  }
+  loadPlaylists(offset = 0){
+    this.props.playlistActions.fetchUserPlaylists(offset);
   }
   componentDidMount() {
     this.loadPlaylists();
   }
+  onLoadMoreClick(event){
+    event.preventDefault();
+    this.loadPlaylists(this.props.playlistsData.meta.nextOffset);
+  }
   render() {
+    let meta = this.props.playlistsData.meta;
+    let pendingCount = meta.pendingCount;
     return (
       <div>
+        {pendingCount != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more tracks({pendingCount} left...)</a> : null}
         <ul>
           { _.map(this.props.playlistsData.playlists, (playlist) => <Playlist 
             key={playlist.id}
-            {...playlist} 
-            fetchTracks={this.props.playlistActions.fetchPlaylistTracks}
-            selectTrack={this.props.playlistActions.selectTrack}
-            select={this.props.playlistActions.selectPlaylist}
+            {...playlist}
+            playlistActions={this.props.playlistActions}
+            trackSearchData={this.props.trackSearchData}
+            trackSearchActions={this.props.trackSearchActions}
             />
           )}
         </ul>
