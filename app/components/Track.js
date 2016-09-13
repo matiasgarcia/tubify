@@ -7,7 +7,7 @@ export default class Track extends Component {
     playlistActions: PropTypes.object.isRequired,
     trackSearchData: PropTypes.object.isRequired,
     trackSearchActions: PropTypes.object.isRequired
-  }
+  };
   constructor(props){
     super(props);
     this.onSelectionToggle = this.onSelectionToggle.bind(this);
@@ -25,16 +25,16 @@ export default class Track extends Component {
   }
   onDownloadClick(r, event){
     event.preventDefault();
-    let trackInfo = Object.assign({}, this.props.track, {url: r.url})
+    let trackInfo = Object.assign({}, this.props.track, {url: r.url});
     this.props.trackSearchActions.downloadTrack(trackInfo);
   }
   renderTrackSearchData(trackSearchData){
     if(trackSearchData){
       let downloadLinks = _.map(trackSearchData.results, (r) => {
         return <li key={r.id}>
-          <a href="#" disabled={trackSearchData.isDownloading} onClick={this.onDownloadClick.bind(null, r)}>{r.url}</a>
+          <a href="#" onClick={this.onDownloadClick.bind(null, r)}>{r.url}</a>
         </li>
-      })
+      });
       return <ul>{downloadLinks}</ul>;
     } else {
       return null;
