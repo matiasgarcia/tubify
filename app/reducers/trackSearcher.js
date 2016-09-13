@@ -27,7 +27,7 @@ function trackSearch(newState, track){
 }
 
 function trackDownloadPending(newState, track){
-  var updatedTrack = _.merge(newState[track.id], {
+  _.merge(newState[track.id], {
     isDownloading: true,
     downloaded: false,
     errorDownload: false
