@@ -8,7 +8,7 @@ export class YoutubeDownloader {
   download(link){
     return new Promise((resolve, reject) => {
       execFile('youtube-dl', ['-f', 'bestaudio[ext=m4a]/bestaudio', link], this.options, (error, stdout, stderr) => {
-        if (error || stderr) reject(error, stderr);
+        if (error || stderr) reject({error, stderr});
         resolve(stdout);
       })
     })
