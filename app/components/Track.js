@@ -25,13 +25,15 @@ export default class Track extends Component {
   }
   onDownloadClick(r, event){
     event.preventDefault();
-    this.props.trackSearchActions.downloadTrack(r);
+    let trackInfo = Object.assign({}, this.props.track, {url: r.url})
+    this.props.trackSearchActions.downloadTrack(trackInfo);
   }
-  renderTrackSearchData(){
-    let trackSearchData = this.props.trackSearchData[this.props.track.id];
+  renderTrackSearchData(trackSearchData){
     if(trackSearchData){
       let downloadLinks = _.map(trackSearchData.results, (r) => {
-        return <li key={r.id}><a href="#" onClick={this.onDownloadClick.bind(null, r)}>{r.url}</a></li>
+        return <li key={r.id}>
+          <a href="#" disabled={trackSearchData.isDownloading} onClick={this.onDownloadClick.bind(null, r)}>{r.url}</a>
+        </li>
       })
       return <ul>{downloadLinks}</ul>;
     } else {
@@ -40,12 +42,13 @@ export default class Track extends Component {
   }
   render(){
     let props = this.props;
+    let trackSearchData = this.props.trackSearchData[this.props.track.id];
     //TODO: Remove DIV, illegal HTML.
     return (
       <div>
         <li><input type="checkbox" checked={props.track.isSelected} onChange={this.onSelectionToggle}/>{props.track.name}</li>
-        <a href="#" onClick={this.onSearchClick}>Search Track</a>
-        {this.renderTrackSearchData()}
+        <a href="#" onClick={this.onSearchClick}>Search Track</a> {trackSearchData && trackSearchData.downloaded && <p>Downloaded!</p>}
+        {this.renderTrackSearchData(trackSearchData)}
       </div>
     )
   }
