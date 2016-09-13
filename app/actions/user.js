@@ -25,9 +25,11 @@ export function fetchPlaylistTracks(userId, playlistId, offset = 0, limit = 100)
     },
     pending: (data) => {
       data.playlistId = playlistId;
+      return data;
     },
     failure: (error) => {
       error.playlistId = playlistId;
+      return data;
     }
   });
 }
