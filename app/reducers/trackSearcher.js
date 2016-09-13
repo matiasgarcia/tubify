@@ -1,17 +1,22 @@
 import _ from 'lodash';
 import { TRACK_SEARCH, TRACK_FOUND, TRACK_NOT_FOUND, TRACK_DOWNLOAD_PENDING, TRACK_DOWNLOAD_SUCCESS, TRACK_DOWNLOAD_FAILURE } from '../actions/trackSearcher';
 
+function updateTrackInfo(newState, track, updatedTrackState){
+  newState[track.id] = Object.assign({}, newState[track.id], updatedTrackState);
+  return newState;
+}
+
 function trackFound(newState, track, exportData){
-  newState[track.id] = {
+  updateTrackInfo(newState, track, {
     results: exportData,
     isFetching: false,
     error: null
-  };
+  });
   return newState;
 }
 
 function trackNotFound(newState, track, error){
-  _.merge(newState[track.id], {
+  updateTrackInfo(newState, track, {
     isFetching: false,
     error: error
   });
@@ -19,7 +24,7 @@ function trackNotFound(newState, track, error){
 }
 
 function trackSearching(newState, track){
-  _.merge(newState[track.id], {
+  updateTrackInfo(newState, track, {
     isFetching: true,
     error: null
   });
@@ -27,7 +32,7 @@ function trackSearching(newState, track){
 }
 
 function trackDownloadPending(newState, track){
-  _.merge(newState[track.id], {
+  updateTrackInfo(newState, track, {
     isDownloading: true,
     downloaded: false,
     errorDownload: false
@@ -36,7 +41,7 @@ function trackDownloadPending(newState, track){
 }
 
 function trackDownloadSuccess(newState, track){
-  _.merge(newState[track.id], {
+  updateTrackInfo(newState, track, {
     isDownloading: false,
     downloaded: true,
     errorDownload: false
@@ -45,7 +50,7 @@ function trackDownloadSuccess(newState, track){
 }
 
 function trackDownloadFailure(newState, track, error){
-  _.merge(newState[track.id], {
+  updateTrackInfo(newState, track, {
     isDownloading: false,
     downloaded: false,
     errorDownload: error
