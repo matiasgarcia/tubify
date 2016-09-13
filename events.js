@@ -13,7 +13,7 @@ export default function loadEvents(ipcMain){
 	});
 
 	ipcMain.on('download-track', (event, track) => {
-		youtubeDownloader.download(track.link)
+		youtubeDownloader.download(track.url)
 			.then((stdout) => event.sender.send('download-track-done', null, track))
 			.catch(({error, stderr}) => event.sender.send('download-track-done', error, track))
 	})

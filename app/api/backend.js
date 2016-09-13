@@ -15,7 +15,7 @@ export function requestSearchTrack(trackToSearch){
 	})
 }
 
-export function downloadTrack(trackToDownload){
+export function requestDownloadTrack(trackToDownload){
 	return new Promise((resolve, reject) => {
 		ipcRenderer.send('download-track', trackToDownload);
 		ipcRenderer.on('download-track-done', (event, error, track) => {
