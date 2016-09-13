@@ -18,7 +18,7 @@ function trackNotFound(newState, track, error){
   return newState;
 }
 
-function trackSearch(newState, track){
+function trackSearching(newState, track){
   _.merge(newState[track.id], {
     isFetching: true,
     error: null
@@ -62,7 +62,7 @@ export default function trackSearch(state = initialState, action) {
   let error = action.error;
   switch (action.type) {
     case TRACK_SEARCH:
-      return trackSearch(newState, track);
+      return trackSearching(newState, track);
     case TRACK_FOUND:
       return trackFound(newState, track, exportData);
     case TRACK_NOT_FOUND:
