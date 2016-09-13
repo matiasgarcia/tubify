@@ -5,6 +5,7 @@ export default class ActionFactory {
     return () => {
       return {
         type: pendingConstant,
+        data: {}
       }
     }
   }
@@ -32,14 +33,18 @@ export default class ActionFactory {
     return (dispatch, getState) => {
       let { accessToken } = getState().auth.tokenData;
       spotify.setAccessToken(accessToken);
-
-      dispatch(pending());
+      let processedPending = pending();
+      callbackOptions.pending && callbackOptions.pending(processedPending.data);
+      dispatch(processedPending);
       spotify[apiOptions.apiCall].apply(spotify, apiOptions.args)
         .then((data) => {
           let processedData = callbackOptions.success ? callbackOptions.success(data) : data;
           return dispatch(success(processedData))
         })
-        .catch((error) => dispatch(failure(error)))
+        .catch((error) => {
+          let processedError = callbackOptions.failure ? callbackOptions.failure(error) : error;
+          return dispatch(failure(processedError))
+        })
     }
 
   }

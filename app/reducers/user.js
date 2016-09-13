@@ -8,6 +8,10 @@ const initialState = {
 };
 
 function playlistTracksSuccess(state, action){
+  let updatedPlaylists = _.cloneDeep(state.playlists);
+  let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
+  let playlist = updatedPlaylists[index];
+  
   let tracks = _.map(action.data.items, (item) => {
     let track = item.track;
     return {
@@ -18,14 +22,38 @@ function playlistTracksSuccess(state, action){
       isSelected: false
     }
   });
+
+  playlist.tracks = _.concat(playlist.tracks, tracks);
+  playlist.isFetching = false;
+  playlist.error = null;
+  return Object.assign({}, state, {
+    playlists: updatedPlaylists,
+  });
+}
+
+function playlistTracksPending(state, action){
   let updatedPlaylists = _.cloneDeep(state.playlists);
   let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
   let playlist = updatedPlaylists[index];
-  playlist.tracks = _.concat(playlist.tracks, tracks);
+  
+  playlist.isFetching = true;
+  playlist.error = null;
+  
   return Object.assign({}, state, {
     playlists: updatedPlaylists,
-    isFetching: false,
-    error: null
+  });
+}
+
+function playlistTracksFailure(state, action){
+  let updatedPlaylists = _.cloneDeep(state.playlists);
+  let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.error.playlistId);
+  let playlist = updatedPlaylists[index];
+  
+  playlist.isFetching = false;
+  playlist.error = action.error;
+  
+  return Object.assign({}, state, {
+    playlists: updatedPlaylists,
   });
 }
 
@@ -38,6 +66,8 @@ function userPlaylistsSuccess(state, action){
       userId: playlistData.owner.id,
       totalTracksCount: playlistData.tracks.total,
       tracks: [],
+      isFetching: false,
+      error: null,
       isPublic: playlistData.public
     }
   });
@@ -92,17 +122,11 @@ export default function playlists(state = initialState, action) {
         error: action.error
       });
     case PLAYLIST_TRACKS_CONSTANTS.PENDING:
-      return Object.assign({}, state, {
-        isFetching: true,
-        error: null
-      });
+      return playlistTracksPending(state, action);
     case PLAYLIST_TRACKS_CONSTANTS.SUCCESS:
       return playlistTracksSuccess(state, action);
     case PLAYLIST_TRACKS_CONSTANTS.FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        error: action.error
-      });
+      return playlistTracksFailure(state, action);
     case TOGGLE_TRACK_SELECTION:
       return toggleTrackSelection(state, action);
     case TOGGLE_PLAYLIST_SELECTION:

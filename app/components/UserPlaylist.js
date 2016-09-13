@@ -40,7 +40,9 @@ class Playlist extends Component {
   static propTypes = {
     playlistActions: PropTypes.object.isRequired,
     trackSearchData: PropTypes.object.isRequired,
-    trackSearchActions: PropTypes.object.isRequired
+    trackSearchActions: PropTypes.object.isRequired,
+    playlistMeta: PropTypes.object,
+    playlist: PropTypes.object.isRequired
   }
   constructor(props){
     super(props);
@@ -48,23 +50,28 @@ class Playlist extends Component {
     this.onSelectionToggle = this.onSelectionToggle.bind(this);
   }
   onSelectionToggle(event){
-    this.props.playlistActions.selectPlaylist(this.props.id, event.target.checked);
+    this.props.playlistActions.selectPlaylist(this.props.playlist.id, event.target.checked);
   }
   loadTracks(e){
     e.preventDefault();
-    this.props.playlistActions.fetchPlaylistTracks(this.props.userId, this.props.id);
+    this.props.playlistActions.fetchPlaylistTracks(this.props.playlist.userId, this.props.playlist.id, this.props.playlistMeta.nextOffset);
   }
   render(){
-    let tracks = this.props.tracks;
+    let tracks = this.props.playlist.tracks;
     let areAllSelected = (tracks.length != 0) ? !_.some(tracks, (track) => !track.isSelected) : false;
+    let tracksTotalCount = this.props.playlistMeta.totalCount;
+    let tracksFetchedCount = tracks.length;
+    let pendingCount = tracksTotalCount - tracksFetchedCount;
     return (
       <div>
-        <li><input type="checkbox" checked={areAllSelected} onChange={this.onSelectionToggle}/> {this.props.name} ({this.props.totalTracksCount} tracks)</li> <a href="#" onClick={this.loadTracks}>Load Tracks</a>
+        <li><input type="checkbox" checked={areAllSelected} onChange={this.onSelectionToggle}/> {this.props.playlist.name}
+          { pendingCount != 0 && <a href="#" onClick={this.loadTracks}>Load more tracks ({pendingCount} left...)</a>}
+        </li>
         <ul>
           {_.map(tracks, (track) => <Track 
             key={track.id} 
             track={track} 
-            playlistId={this.props.id} 
+            playlistId={this.props.playlist.id} 
             playlistActions={this.props.playlistActions} 
             trackSearchData={this.props.trackSearchData} 
             trackSearchActions={this.props.trackSearchActions}/>)}
@@ -102,14 +109,15 @@ export default class UserPlaylist extends Component {
     let pendingCount = tracksTotalCount - tracksFetchedCount;
     return (
       <div>
-        {this.props.apiMeta.playlists.nextOffset != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more tracks({pendingCount} left...)</a> : null}
+        {pendingCount != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more playlists ({pendingCount} left...)</a> : null}
         <ul>
           { _.map(this.props.playlistsData.playlists, (playlist) => <Playlist 
             key={playlist.id}
-            {...playlist}
+            playlist={playlist}
             playlistActions={this.props.playlistActions}
             trackSearchData={this.props.trackSearchData}
             trackSearchActions={this.props.trackSearchActions}
+            playlistMeta={this.props.apiMeta.playlistTracks[playlist.id]}
             />
           )}
         </ul>
