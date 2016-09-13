@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECTION, TOGGLE_PLAYLIST_SELECTION } from '../actions/user';
+import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECTION, TOGGLE_PLAYLIST_SELECTION } from '../actions/playlists';
 
 const initialState = {
   playlists: [],
@@ -11,7 +11,7 @@ function playlistTracksSuccess(state, action){
   let updatedPlaylists = _.cloneDeep(state.playlists);
   let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
   let playlist = updatedPlaylists[index];
-  
+
   let tracks = _.map(action.data.items, (item) => {
     let track = item.track;
     return {
@@ -35,10 +35,10 @@ function playlistTracksPending(state, action){
   let updatedPlaylists = _.cloneDeep(state.playlists);
   let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
   let playlist = updatedPlaylists[index];
-  
+
   playlist.isFetching = true;
   playlist.error = null;
-  
+
   return Object.assign({}, state, {
     playlists: updatedPlaylists,
   });
@@ -48,10 +48,10 @@ function playlistTracksFailure(state, action){
   let updatedPlaylists = _.cloneDeep(state.playlists);
   let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.error.playlistId);
   let playlist = updatedPlaylists[index];
-  
+
   playlist.isFetching = false;
   playlist.error = action.error;
-  
+
   return Object.assign({}, state, {
     playlists: updatedPlaylists,
   });

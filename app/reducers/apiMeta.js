@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../actions/user';
+import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../actions/playlists';
 
 class ApiMeta {
 	constructor(totalCount, nextOffset){
