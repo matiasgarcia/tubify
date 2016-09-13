@@ -14,3 +14,18 @@ export function requestSearchTrack(trackToSearch){
 		})
 	})
 }
+
+export function downloadTrack(trackToDownload){
+	return new Promise((resolve, reject) => {
+		ipcRenderer.send('download-track', trackToDownload);
+		ipcRenderer.on('download-track-done', (event, error, track) => {
+			if(trackToDownload.id == track.id){
+				if(error){
+					reject({error, track})
+				} else {
+					resolve({track})
+				}
+			}
+		})
+	})
+}
