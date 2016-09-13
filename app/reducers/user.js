@@ -5,11 +5,6 @@ const initialState = {
   playlists: [],
   isFetching: false,
   error: null,
-  meta: {
-    totalCount: null,
-    pendingCount: null,
-    nextOffset: null
-  }
 };
 
 function playlistTracksSuccess(state, action){
@@ -47,18 +42,10 @@ function userPlaylistsSuccess(state, action){
     }
   });
   let updatedPlaylists = _.concat(state.playlists, newPlaylists);
-  let totalPlaylists = data.total;
-  let offsetMatch = /offset=(\d+)/.exec(data.next) || [];
-  let nextRequestOffset = offsetMatch[1];
   return Object.assign({}, state, {
     playlists: updatedPlaylists,
     isFetching: false,
     error: null,
-    meta: {
-      totalCount: totalPlaylists,
-      pendingCount: totalPlaylists - updatedPlaylists.length,
-      nextOffset: nextRequestOffset
-    }
   });
 }
 

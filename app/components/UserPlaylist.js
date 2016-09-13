@@ -79,7 +79,8 @@ export default class UserPlaylist extends Component {
     playlistsData: PropTypes.object.isRequired,
     playlistActions: PropTypes.object.isRequired,
     trackSearchData: PropTypes.object.isRequired,
-    trackSearchActions: PropTypes.object.isRequired
+    trackSearchActions: PropTypes.object.isRequired,
+    apiMeta: PropTypes.object.isRequired
   }
   constructor(props){
     super(props);
@@ -93,11 +94,12 @@ export default class UserPlaylist extends Component {
   }
   onLoadMoreClick(event){
     event.preventDefault();
-    this.loadPlaylists(this.props.playlistsData.meta.nextOffset);
+    this.loadPlaylists(this.props.apiMeta.playlists.nextOffset);
   }
   render() {
-    let meta = this.props.playlistsData.meta;
-    let pendingCount = meta.pendingCount;
+    let tracksTotalCount = this.props.apiMeta.playlists.totalCount;
+    let tracksFetchedCount = this.props.playlistsData.playlists.length;
+    let pendingCount = tracksTotalCount - tracksFetchedCount;
     return (
       <div>
         {pendingCount != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more tracks({pendingCount} left...)</a> : null}

@@ -8,7 +8,8 @@ import UserPlaylist from '../components/UserPlaylist';
 function mapStateToProps(state) {
   return {
     playlistsData: state.playlists,
-    trackSearchData: state.trackSearch
+    trackSearchData: state.trackSearch,
+    apiMeta: state.apiMeta
   };
 }
 
