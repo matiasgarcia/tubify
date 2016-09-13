@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import Track from './Track' 
+import Track from './Track'
 
 export default class Playlist extends Component {
   static propTypes = {
@@ -31,15 +31,15 @@ export default class Playlist extends Component {
     return (
       <div>
         <li><input type="checkbox" checked={areAllSelected} onChange={this.onSelectionToggle}/> {this.props.playlist.name}
-          { pendingCount != 0 && <a href="#" onClick={this.loadTracks}>Load more tracks ({pendingCount} left...)</a>}
+          {' '}{ pendingCount != 0 && <a href="#" onClick={this.loadTracks}>Load more tracks ({pendingCount} left...)</a>}
         </li>
         <ul>
-          {_.map(tracks, (track) => <Track 
-            key={track.id} 
-            track={track} 
-            playlistId={this.props.playlist.id} 
-            playlistActions={this.props.playlistActions} 
-            trackSearchData={this.props.trackSearchData} 
+          {_.map(tracks, (track) => <Track
+            key={track.id}
+            track={track}
+            playlistId={this.props.playlist.id}
+            playlistActions={this.props.playlistActions}
+            trackSearchData={this.props.trackSearchData}
             trackSearchActions={this.props.trackSearchActions}/>)}
         </ul>
       </div>
