@@ -102,7 +102,7 @@ export default class UserPlaylist extends Component {
     let pendingCount = tracksTotalCount - tracksFetchedCount;
     return (
       <div>
-        {pendingCount != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more tracks({pendingCount} left...)</a> : null}
+        {this.props.apiMeta.playlists.nextOffset != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more tracks({pendingCount} left...)</a> : null}
         <ul>
           { _.map(this.props.playlistsData.playlists, (playlist) => <Playlist 
             key={playlist.id}
