@@ -1,10 +1,8 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import _ from 'lodash';
-import fs from 'fs';
 import * as authenticationHandler from './app/utils/authenticationHandler'
 import loadEvents from './events'
-
-const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+import { config } from './config'
 
 loadEvents(config, ipcMain);
 
