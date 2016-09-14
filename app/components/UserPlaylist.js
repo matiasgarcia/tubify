@@ -1,6 +1,37 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import Playlist from './Playlist';
+import SelectableList from './SelectableList'
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
+import {ListItem} from 'material-ui/List';
+import injectTapEventPlugin from "react-tap-event-plugin";
+injectTapEventPlugin();
+
+class PlaylistsList extends Component {
+  static propTypes = {
+    playlists: PropTypes.array.isRequired,
+    selected: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    total: PropTypes.number
+  };
+  render() {
+    let playlists = this.props.playlists;
+    let pendingCount = this.props.total - playlists.length;
+    return (
+      <SelectableList onChange={this.props.onChange} selected={this.props.selected}>
+        <Subheader>Playlists</Subheader>
+        {_.map(playlists, (playlist) => <ListItem
+          key={playlist.id}
+          value={playlist.id}
+          primaryText={playlist.name}
+          leftAvatar={<Avatar src={playlist.images[0].url}/>}
+        />)}
+        {pendingCount != 0 ? <ListItem key={0} value={0} primaryText={"Load more playlists (" + pendingCount + " left...)"}/> : null}
+      </SelectableList>
+    )
+  }
+}
+
 
 export default class UserPlaylist extends Component {
   static propTypes = {
@@ -9,40 +40,37 @@ export default class UserPlaylist extends Component {
     trackSearchData: PropTypes.object.isRequired,
     trackSearchActions: PropTypes.object.isRequired,
     apiMeta: PropTypes.object.isRequired
-  }
+  };
   constructor(props){
     super(props);
-    this.onLoadMoreClick = this.onLoadMoreClick.bind(this);
-  }
-  loadPlaylists(offset = 0){
-    this.props.playlistActions.fetchUserPlaylists(offset);
+    this.handlePlaylistChange = this.handlePlaylistChange.bind(this);
+    this.state = {selectedPlaylist: null}
   }
   componentDidMount() {
     this.loadPlaylists();
   }
-  onLoadMoreClick(event){
-    event.preventDefault();
-    this.loadPlaylists(this.props.apiMeta.playlists.nextOffset);
+  loadPlaylists(offset = 0){
+    this.props.playlistActions.fetchUserPlaylists(offset);
   }
+  handlePlaylistChange = (event, index) => {
+    if(index == 0){
+      this.loadPlaylists(this.props.apiMeta.playlists.nextOffset)
+    } else {
+      this.setState({
+        selectedPlaylist: index,
+      })
+    }
+  };
   render() {
-    let tracksTotalCount = this.props.apiMeta.playlists.totalCount;
-    let tracksFetchedCount = this.props.playlistsData.playlists.length;
-    let pendingCount = tracksTotalCount - tracksFetchedCount;
     return (
       <div>
-        {pendingCount != 0 ? <a href="#" onClick={this.onLoadMoreClick}>Load more playlists ({pendingCount} left...)</a> : null}
-        <ul>
-          { _.map(this.props.playlistsData.playlists, (playlist) => <Playlist 
-            key={playlist.id}
-            playlist={playlist}
-            playlistActions={this.props.playlistActions}
-            trackSearchData={this.props.trackSearchData}
-            trackSearchActions={this.props.trackSearchActions}
-            playlistMeta={this.props.apiMeta.playlistTracks[playlist.id]}
-            />
-          )}
-        </ul>
+        <PlaylistsList
+          total={this.props.apiMeta.playlists.totalCount}
+          playlists={this.props.playlistsData.playlists}
+          selected={this.state.selectedPlaylist}
+          onChange={this.handlePlaylistChange}
+        />
       </div>
-    );
+    )
   }
 }

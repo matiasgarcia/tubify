@@ -64,6 +64,7 @@ function userPlaylistsSuccess(state, action){
       id: playlistData.id,
       name: playlistData.name,
       userId: playlistData.owner.id,
+      images: playlistData.images,
       totalTracksCount: playlistData.tracks.total,
       tracks: [],
       isFetching: false,
