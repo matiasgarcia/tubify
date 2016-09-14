@@ -17,12 +17,10 @@ export default class App extends Component {
     return (
       <Grid>
         <Row>
-          <Col md={12}>
-            <AppBar
-              title="Tubify"
-              iconElementRight={userAvatar}
-            />
-          </Col>
+          <AppBar
+            title="Tubify"
+            iconElementRight={userAvatar}
+          />
         </Row>
         {this.props.children}
       </Grid>
