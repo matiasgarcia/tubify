@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { Grid, Row } from 'react-flexbox-grid/lib/index';
 import AppBar from 'material-ui/AppBar';
-import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
+import injectTapEventPlugin from "react-tap-event-plugin";
+injectTapEventPlugin();
 
 export default class App extends Component {
   static propTypes = {
@@ -13,13 +15,17 @@ export default class App extends Component {
     let userImageUrl = this.props.auth.userData.images[0].url;
     let userAvatar = <Avatar src={userImageUrl}/>;
     return (
-      <Paper>
-        <AppBar
-          title="Tubify"
-          iconElementRight={userAvatar}
-        />
+      <Grid>
+        <Row>
+          <Col md={12}>
+            <AppBar
+              title="Tubify"
+              iconElementRight={userAvatar}
+            />
+          </Col>
+        </Row>
         {this.props.children}
-      </Paper>
+      </Grid>
     );
   }
 }

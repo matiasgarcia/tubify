@@ -96,9 +96,11 @@
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.2",
     "electron-debug": "^1.0.1",
     "electron-json-storage": "^2.0.0",
+    "flexboxgrid": "^6.3.1",
     "font-awesome": "^4.6.3",
     "googleapis": "^12.4.0",
     "lodash": "^4.15.0",
@@ -106,6 +108,7 @@
     "postcss": "^5.1.2",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-flexbox-grid": "^0.10.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
     "react-router-bootstrap": "^0.23.1",

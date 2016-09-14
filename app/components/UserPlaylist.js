@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import SelectableList from './SelectableList'
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import {ListItem} from 'material-ui/List';
-import injectTapEventPlugin from "react-tap-event-plugin";
-injectTapEventPlugin();
+import Paper from 'material-ui/Paper';
+import { ListItem } from 'material-ui/List';
+import { Row, Col } from 'react-flexbox-grid/lib/index';
+import SelectableList from './SelectableList'
 
 class PlaylistsList extends Component {
   static propTypes = {
@@ -63,14 +63,18 @@ export default class UserPlaylist extends Component {
   };
   render() {
     return (
-      <div>
-        <PlaylistsList
-          total={this.props.apiMeta.playlists.totalCount}
-          playlists={this.props.playlistsData.playlists}
-          selected={this.state.selectedPlaylist}
-          onChange={this.handlePlaylistChange}
-        />
-      </div>
+      <Row>
+        <Col md={4}>
+          <Paper>
+            <PlaylistsList
+              total={this.props.apiMeta.playlists.totalCount}
+              playlists={this.props.playlistsData.playlists}
+              selected={this.state.selectedPlaylist}
+              onChange={this.handlePlaylistChange}
+            />
+          </Paper>
+        </Col>
+      </Row>
     )
   }
 }
