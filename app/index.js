@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import { getStoredAuthData } from './utils/authenticationHandler';
@@ -12,9 +13,11 @@ const initializePage = function (auth){
   const history = syncHistoryWithStore(hashHistory, store);
 
   render(
-    <Provider store={store}>
-      <Router history={history} routes={routes} />
-    </Provider>,
+    <MuiThemeProvider>
+      <Provider store={store}>
+          <Router history={history} routes={routes} />
+      </Provider>
+    </MuiThemeProvider>,
     document.getElementById('root')
   );
 };
