@@ -1,13 +1,16 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import _ from 'lodash';
+import fs from 'fs';
 import * as authenticationHandler from './app/utils/authenticationHandler'
 import loadEvents from './events'
+
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+loadEvents(config, ipcMain);
 
 let menu;
 let template;
 let mainWindow = null;
-
-loadEvents(ipcMain);
 
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')(); // eslint-disable-line global-require

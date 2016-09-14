@@ -1,12 +1,12 @@
 import { YoutubeSearcher } from './searchers';
 import { YoutubeDownloader } from './downloaders';
 
-let youtubeSearcher = new YoutubeSearcher({apiKey: 'AIzaSyBaoeeDj56V4Y6s43qW3mEf8XzHKJ-bIjs'});
-let youtubeDownloader = new YoutubeDownloader({downloadPath: '/home/matias'});
+export default function loadEvents(config, ipcMain){
+  const youtubeSearcher = new YoutubeSearcher({apiKey: 'AIzaSyBaoeeDj56V4Y6s43qW3mEf8XzHKJ-bIjs'});
+  const youtubeDownloader = new YoutubeDownloader({downloadPath: config.downloadPath});
 
-export default function loadEvents(ipcMain){
 	ipcMain.on('search-track', (event, track) => {
-	  let query = `${track.artists.join(', ')} - ${track.name} `
+	  let query = `${track.artists.join(', ')} - ${track.name} `;
 	  youtubeSearcher.search(query)
 	    .then((sources) => event.sender.send('search-track-done', null, track, sources))
 	    .catch((error) => event.sender.send('search-track-done', error, track))
