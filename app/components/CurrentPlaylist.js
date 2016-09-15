@@ -28,7 +28,7 @@ export default class CurrentPlaylist extends Component {
             <TableHeaderColumn>Artists</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody showRowHover stripedRows>
           {trackRows}
         </TableBody>
       </Table>
