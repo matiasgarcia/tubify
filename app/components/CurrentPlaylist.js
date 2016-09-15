@@ -15,7 +15,7 @@ export default class CurrentPlaylist extends Component {
     let tracks = this.props.tracks;
     let trackRows = _.map(playlistTracks, (trackId) => {
       var track = tracks[trackId];
-      return <TableRow key={trackId}>
+      return <TableRow key={trackId} selected={track.isSelected}>
         <TableRowColumn>{track.name}</TableRowColumn>
         <TableRowColumn>{track.artists.join(", ")}</TableRowColumn>
       </TableRow>;
