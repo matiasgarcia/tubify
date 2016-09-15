@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECTION, TOGGLE_PLAYLIST_SELECTION } from '../actions/playlists';
+import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../actions/playlists';
 
 const initialState = {
   playlists: [],
@@ -71,34 +71,6 @@ function userPlaylistsSuccess(state, action){
   });
 }
 
-function switchTrackSelectedState(playlists, playlistId, trackId, selectedState){
-  let foundPlaylist = _.find(playlists, (playlist) => playlist.id == playlistId);
-  let foundTrack = _.find(foundPlaylist.tracks, (track) => track.id == trackId);
-  foundTrack.isSelected = selectedState;
-  return foundTrack;
-}
-
-function switchPlaylistTracksSelectedState(playlists, playlistId, selectedState){
-  let playlist = _.find(playlists, (playlist) => playlist.id == playlistId);
-  _.each(playlist.tracks, (track) => {
-    track.isSelected = selectedState;
-    return true;
-  });
-  return playlist;
-}
-
-function toggleTrackSelection(state, action){
-  let newState = _.cloneDeep(state);
-  switchTrackSelectedState(newState.playlists, action.playlistId, action.trackId, action.selected);
-  return newState;
-}
-
-function togglePlaylistSelection(state, action){
-  let newState = _.cloneDeep(state);
-  let playlist = switchPlaylistTracksSelectedState(newState.playlists, action.playlistId, action.selected);
-  return newState;
-}
-
 export default function playlists(state = initialState, action) {
   switch (action.type) {
     case USER_PLAYLIST_CONSTANTS.PENDING:
@@ -119,10 +91,6 @@ export default function playlists(state = initialState, action) {
       return playlistTracksSuccess(state, action);
     case PLAYLIST_TRACKS_CONSTANTS.FAILURE:
       return playlistTracksFailure(state, action);
-    case TOGGLE_TRACK_SELECTION:
-      return toggleTrackSelection(state, action);
-    case TOGGLE_PLAYLIST_SELECTION:
-      return togglePlaylistSelection(state, action);
     default:
       return state;
   }

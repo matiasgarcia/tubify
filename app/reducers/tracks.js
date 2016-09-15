@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PLAYLIST_TRACKS_CONSTANTS } from '../actions/playlists';
+import { PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECTION } from '../actions/playlists';
 
 const initialState = {};
 
@@ -18,6 +18,11 @@ export default function tracks(state = initialState, action) {
         }
       });
       return Object.assign({}, state, newTracks);
+    case TOGGLE_TRACK_SELECTION:
+      let updatedTrack = Object.assign({}, state[action.trackId], {isSelected: action.selected});
+      let updatedState = {};
+      updatedState[action.trackId] = updatedTrack;
+      return Object.assign({}, state, updatedState);
     default:
       return state;
   }
