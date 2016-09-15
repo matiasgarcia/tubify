@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import playlists from '../../app/reducers/playlists';
-import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS, TOGGLE_TRACK_SELECTION, TOGGLE_PLAYLIST_SELECTION } from '../../app/actions/playlists';
-import { userPlaylistsSuccess, playlistTracks } from '../fixtures/spotifyApi'
+import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../../app/actions/playlists';
+import { userPlaylistsSuccess, playlistTracks } from '../fixtures/spotifyApi';
+import _ from 'lodash';
 
 describe('reducers', () => {
   describe('playlists', () => {
@@ -25,7 +26,8 @@ describe('reducers', () => {
           isPublic: expectedPlaylist.public,
           tracks: [],
           isFetching: false,
-          error: null
+          error: null,
+          images: expectedPlaylist.images
         }],
         isFetching: false,
         error: null
@@ -68,17 +70,10 @@ describe('reducers', () => {
       };
       let newState = playlists(updatedState, playlistTrackSuccessAction);
 
-      let updatedPlaylistTracks = newState.playlists[0].tracks;
-      let expectedTrack = playlistTracks.items[0].track;
+      let updatedPlaylistTracksIds = newState.playlists[0].tracks;
+      let expectedTrackIds = _.map(playlistTracks.items, (item) => item.track.id);
 
-      expect(updatedPlaylistTracks.length).to.equal(1);
-      expect(updatedPlaylistTracks[0]).to.deep.equal({
-        id: expectedTrack.id,
-        name: expectedTrack.name,
-        album: expectedTrack.album.name,
-        artists: [expectedTrack.artists[0].name, expectedTrack.artists[1].name, expectedTrack.artists[2].name],
-        isSelected: false
-      });
+      expect(updatedPlaylistTracksIds).to.have.members(expectedTrackIds);
     });
 
     it('should handle PLAYLIST_TRACK_CONSTANTS.FAILURE', () => {
