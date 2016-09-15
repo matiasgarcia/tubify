@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class PlaylistLoader extends Component {
+export default class PlaylistTracksLoader extends Component {
   static propTypes = {
     playlistMeta: PropTypes.object.isRequired,
     playlist: PropTypes.object.isRequired,

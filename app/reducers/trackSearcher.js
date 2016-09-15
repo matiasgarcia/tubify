@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { TRACK_SEARCH, TRACK_FOUND, TRACK_NOT_FOUND, TRACK_DOWNLOAD_PENDING, TRACK_DOWNLOAD_SUCCESS, TRACK_DOWNLOAD_FAILURE } from '../actions/trackSearcher';
+import { TRACK_SEARCH, TRACK_FOUND, TRACK_NOT_FOUND, TRACK_DOWNLOAD_PENDING, TRACK_DOWNLOAD_SUCCESS, TRACK_DOWNLOAD_FAILURE } from '../actions/tracks';
 
 function updateTrackInfo(newState, track, updatedTrackState){
   newState[track.id] = Object.assign({}, newState[track.id], updatedTrackState);

@@ -4,14 +4,14 @@ import { Row, Col } from 'react-flexbox-grid/lib/index';
 import _ from 'lodash';
 import PlaylistsList from './PlaylistsList';
 import CurrentPlaylist from './CurrentPlaylist';
-import PlaylistLoader from './PlaylistLoader';
+import PlaylistTracksLoader from './PlaylistTracksLoader';
 
 export default class UserPlaylist extends Component {
   static propTypes = {
     playlistsData: PropTypes.object.isRequired,
     playlistActions: PropTypes.object.isRequired,
     trackSearchData: PropTypes.object.isRequired,
-    trackSearchActions: PropTypes.object.isRequired,
+    trackActions: PropTypes.object.isRequired,
     tracks: PropTypes.object.isRequired,
     apiMeta: PropTypes.object.isRequired
   };
@@ -53,7 +53,7 @@ export default class UserPlaylist extends Component {
         </Col>
         <Col md={8}>
           {selectedPlaylist &&
-          <PlaylistLoader
+          <PlaylistTracksLoader
             playlist={selectedPlaylist}
             playlistMeta={this.props.apiMeta.playlistTracks[selectedPlaylistId]}
             loadTracks={this.props.playlistActions.fetchPlaylistTracks}>
@@ -61,7 +61,7 @@ export default class UserPlaylist extends Component {
               tracks={this.props.tracks}
               playlist={selectedPlaylist}
             />
-          </PlaylistLoader>}
+          </PlaylistTracksLoader>}
         </Col>
       </Row>
     )

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { fetchUserPlaylists, fetchPlaylistTracks, selectTrack, selectPlaylist } from '../actions/playlists';
-import { searchTrack, downloadTrack } from '../actions/trackSearcher';
+import { fetchUserPlaylists, fetchPlaylistTracks } from '../actions/playlists';
+import { searchTrack, downloadTrack, selectTrack } from '../actions/tracks';
 import UserPlaylist from '../components/UserPlaylist';
 
 function mapStateToProps(state) {
@@ -16,8 +16,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playlistActions: bindActionCreators({fetchUserPlaylists, fetchPlaylistTracks, selectTrack, selectPlaylist }, dispatch),
-    trackSearchActions: bindActionCreators({searchTrack, downloadTrack}, dispatch)
+    playlistActions: bindActionCreators({fetchUserPlaylists, fetchPlaylistTracks, selectTrack }, dispatch),
+    trackActions: bindActionCreators({searchTrack, downloadTrack, selectTrack}, dispatch)
   };
 }
 

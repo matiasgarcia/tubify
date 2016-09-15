@@ -7,11 +7,11 @@ import rootReducer from '../reducers';
 
 import * as authActions from '../actions/auth';
 import * as playlistActions from '../actions/playlists';
-import * as trackSearcherActions from '../actions/trackSearcher';
+import * as trackActions from '../actions/tracks';
 
 const actionCreators = {
   ...authActions,
-  ...trackSearcherActions,
+  ...trackActions,
   playlistActions,
   push,
 };

@@ -6,6 +6,15 @@ export const TRACK_NOT_FOUND = 'TRACK_NOT_FOUND';
 export const TRACK_DOWNLOAD_PENDING = 'TRACK_DOWNLOAD_PENDING';
 export const TRACK_DOWNLOAD_SUCCESS = 'TRACK_DOWNLOAD_SUCCESS';
 export const TRACK_DOWNLOAD_FAILURE = 'TRACK_DOWNLOAD_FAILURE';
+export const TRACK_SELECT = 'TRACK_SELECT';
+
+export function selectTrack(trackId, selected){
+  return {
+    type: TRACK_SELECT,
+    trackId,
+    selected
+  }
+}
 
 export function trackSearch(track){
 	return {
