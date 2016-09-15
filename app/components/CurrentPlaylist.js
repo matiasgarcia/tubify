@@ -5,16 +5,21 @@ import _ from 'lodash';
 export default class CurrentPlaylist extends Component {
   static propTypes = {
     playlist: PropTypes.object.isRequired,
+    tracks: PropTypes.object.isRequired
   };
   constructor(props){
     super(props);
   }
   render () {
-    let tracks = this.props.playlist.tracks;
-    let trackRows = _.map(tracks, (track) => <TableRow key={track.id}>
-      <TableRowColumn>{track.name}</TableRowColumn>
-      <TableRowColumn>{track.artists.join(", ")}</TableRowColumn>
-    </TableRow>);
+    let playlistTracks = this.props.playlist.tracks;
+    let tracks = this.props.tracks;
+    let trackRows = _.map(playlistTracks, (trackId) => {
+      var track = tracks[trackId];
+      return <TableRow key={trackId}>
+        <TableRowColumn>{track.name}</TableRowColumn>
+        <TableRowColumn>{track.artists.join(", ")}</TableRowColumn>
+      </TableRow>;
+    });
     return (
       <Table multiSelectable>
         <TableHeader>

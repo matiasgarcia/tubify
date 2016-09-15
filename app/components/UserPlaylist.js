@@ -12,6 +12,7 @@ export default class UserPlaylist extends Component {
     playlistActions: PropTypes.object.isRequired,
     trackSearchData: PropTypes.object.isRequired,
     trackSearchActions: PropTypes.object.isRequired,
+    tracks: PropTypes.object.isRequired,
     apiMeta: PropTypes.object.isRequired
   };
   constructor(props){
@@ -57,6 +58,7 @@ export default class UserPlaylist extends Component {
             playlistMeta={this.props.apiMeta.playlistTracks[selectedPlaylistId]}
             loadTracks={this.props.playlistActions.fetchPlaylistTracks}>
             <CurrentPlaylist
+              tracks={this.props.tracks}
               playlist={selectedPlaylist}
             />
           </PlaylistLoader>}

@@ -12,16 +12,7 @@ function playlistTracksSuccess(state, action){
   let index = _.findIndex(updatedPlaylists, (playlist) => playlist.id == action.data.playlistId);
   let playlist = updatedPlaylists[index];
 
-  let tracks = _.map(action.data.items, (item) => {
-    let track = item.track;
-    return {
-      id: track.id,
-      name: track.name,
-      album: track.album.name,
-      artists: _.map(track.artists, (artist) => artist.name),
-      isSelected: false
-    }
-  });
+  let tracks = _.map(action.data.items, (item) => item.track.id);
 
   playlist.tracks = _.concat(playlist.tracks, tracks);
   playlist.isFetching = false;

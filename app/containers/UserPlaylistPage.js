@@ -9,7 +9,8 @@ function mapStateToProps(state) {
   return {
     playlistsData: state.playlists,
     trackSearchData: state.trackSearch,
-    apiMeta: state.apiMeta
+    apiMeta: state.apiMeta,
+    tracks: state.tracks
   };
 }
 
