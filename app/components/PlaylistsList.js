@@ -24,7 +24,7 @@ export default class PlaylistsList extends Component {
           primaryText={playlist.name}
           leftAvatar={<Avatar src={playlist.images[0].url}/>}
         />)}
-        {pendingCount != 0 ? <ListItem key={0} value={0} primaryText={"Load more playlists (" + pendingCount + " left...)"}/> : null}
+        {pendingCount != 0 ? <ListItem key={0} value={0} primaryText={"Loading more playlists (" + pendingCount + " left...)"}/> : null}
       </SelectableList>
     )
   }

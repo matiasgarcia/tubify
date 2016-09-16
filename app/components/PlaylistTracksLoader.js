@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Loader from './Loader'
 
 export default class PlaylistTracksLoader extends Component {
   static propTypes = {
@@ -6,23 +7,21 @@ export default class PlaylistTracksLoader extends Component {
     playlist: PropTypes.object.isRequired,
     loadTracks: PropTypes.func.isRequired
   };
-  constructor(props){
-    super(props);
-    this.loadPlaylistTracks = this.loadPlaylistTracks.bind(this);
-  }
-  componentWillReceiveProps(nextProps){
-    if (nextProps.playlist.tracks.length == nextProps.playlistMeta.totalCount) return;
-    let tracksPending = !nextProps.playlist.isFetching && nextProps.playlistMeta.nextOffset > 0;
-    let playlistChanged = nextProps.playlist.id != this.props.playlist.id;
-    if (tracksPending || playlistChanged) this.loadPlaylistTracks(nextProps);
-  }
-  componentDidMount(){
-    this.loadPlaylistTracks(this.props);
-  }
-  loadPlaylistTracks(props){
-    props.loadTracks(props.playlist.userId, props.playlist.id, props.playlistMeta.nextOffset);
+  loadPlaylistTracks(){
+    var props = this.props;
+    var playlist = props.playlist;
+    props.loadTracks(playlist.userId, playlist.id, props.playlistMeta.nextOffset);
   }
   render(){
-    return this.props.children;
+    let p = this.props;
+    return <Loader
+      fetchedObject={p.playlist}
+      nextOffset={p.playlistMeta.nextOffset}
+      remoteObjectsCount={p.playlistMeta.totalCount}
+      fetchedObjectsCount={p.playlist.tracks.length}
+      load={this.loadPlaylistTracks.bind(this)}
+    >
+      {this.props.children}
+    </Loader>
   }
 }
