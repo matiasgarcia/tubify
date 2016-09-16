@@ -16,7 +16,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    playlistActions: bindActionCreators({fetchUserPlaylists, fetchPlaylistTracks, selectTrack }, dispatch),
+    playlistActions: bindActionCreators({fetchUserPlaylists, fetchPlaylistTracks }, dispatch),
     trackActions: bindActionCreators({searchTrack, downloadTrack, selectTrack}, dispatch)
   };
 }
