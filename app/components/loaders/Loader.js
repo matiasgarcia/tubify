@@ -12,20 +12,30 @@ export default class Loader extends Component {
     load: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired
   };
+  constructor(props){
+    super(props);
+    this.areAllObjectsFetched = this.areAllObjectsFetched.bind(this);
+  }
   componentWillReceiveProps(nextProps){
-    if (nextProps.fetchedObjectsCount == nextProps.remoteObjectsCount) {
-      //Fetch is done
-      return;
+    if (!this.areAllObjectsFetched(nextProps.fetchedObjectsCount, nextProps.remoteObjectsCount)) {
+      let oldProps = this.props;
+
+      let tracksPending = !nextProps.fetchedObject.isFetching && nextProps.nextOffset > 0;
+      let objectChanged = nextProps.fetchedObject.id && (nextProps.fetchedObject.id != oldProps.fetchedObject.id);
+
+      if (tracksPending || objectChanged) this.props.load();
     }
-    let oldProps = this.props;
 
-    let tracksPending = !nextProps.fetchedObject.isFetching && nextProps.nextOffset > 0;
-    let objectChanged = nextProps.fetchedObject.id && (nextProps.fetchedObject.id != oldProps.fetchedObject.id);
-
-    if (tracksPending || objectChanged) this.props.load();
+  }
+  areAllObjectsFetched(fetchedObjectsCount, remoteObjectsCount){
+    return fetchedObjectsCount > 0 && remoteObjectsCount > 0 && fetchedObjectsCount == remoteObjectsCount
   }
   componentDidMount(){
-    this.props.load();
+    var fetchedObjectsCount = this.props.fetchedObjectsCount;
+    var remoteObjectsCount = this.props.remoteObjectsCount;
+    if (!this.areAllObjectsFetched(fetchedObjectsCount, remoteObjectsCount)){
+      this.props.load();
+    }
   }
   render(){
     return this.props.children;
