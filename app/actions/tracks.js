@@ -7,12 +7,20 @@ export const TRACK_DOWNLOAD_PENDING = 'TRACK_DOWNLOAD_PENDING';
 export const TRACK_DOWNLOAD_SUCCESS = 'TRACK_DOWNLOAD_SUCCESS';
 export const TRACK_DOWNLOAD_FAILURE = 'TRACK_DOWNLOAD_FAILURE';
 export const TRACK_SELECT = 'TRACK_SELECT';
+export const TRACKS_SELECT = 'TRACKS_SELECT';
 
 export function selectTrack(trackId, selected){
   return {
     type: TRACK_SELECT,
     trackId,
     selected
+  }
+}
+
+export function selectTracks(tracks){
+  return {
+    type: TRACKS_SELECT,
+    tracks
   }
 }
 

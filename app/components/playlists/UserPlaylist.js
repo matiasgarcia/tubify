@@ -60,6 +60,7 @@ export default class UserPlaylist extends Component {
             <CurrentPlaylist
               tracks={props.tracks}
               playlist={selectedPlaylist}
+              onTrackSelect={this.props.trackActions.selectTracks}
             />
           </PlaylistTracksLoader>}
         </Col>

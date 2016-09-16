@@ -1,6 +1,15 @@
 import _ from 'lodash';
 import { PLAYLIST_TRACKS_CONSTANTS } from '../actions/playlists';
-import { TRACK_SELECT } from '../actions/tracks';
+import { TRACK_SELECT, TRACKS_SELECT } from '../actions/tracks';
+
+function tracksSelect(state, action){
+  let newState = Object.assign({}, state);
+  let tracks = action.tracks;
+  _.each(tracks, (track) => {
+    newState[track.id].isSelected = track.isSelected;
+  });
+  return newState;
+}
 
 const initialState = {};
 
@@ -24,6 +33,8 @@ export default function tracks(state = initialState, action) {
       let updatedState = {};
       updatedState[action.trackId] = updatedTrack;
       return Object.assign({}, state, updatedState);
+    case TRACKS_SELECT:
+      return tracksSelect(state, action);
     default:
       return state;
   }
