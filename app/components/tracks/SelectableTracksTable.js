@@ -54,7 +54,7 @@ export default class SelectableTracksTable extends Component {
             <TableHeaderColumn>Artists</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody showRowHover stripedRows>
+        <TableBody showRowHover stripedRows deselectOnClickaway={false}>
           {trackRows}
         </TableBody>
       </Table>
