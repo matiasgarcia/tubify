@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import _ from 'lodash';
 
-export default class CurrentPlaylist extends Component {
+export default class SelectableTracksTable extends Component {
   static propTypes = {
-    playlist: PropTypes.object.isRequired,
-    tracks: PropTypes.object.isRequired,
+    tracks: PropTypes.array.isRequired,
+    allTracks: PropTypes.object.isRequired,
     onTrackSelect: PropTypes.func.isRequired
   };
   constructor(props){
@@ -17,17 +17,17 @@ export default class CurrentPlaylist extends Component {
     let tracksSelected;
     if(selectedRows == 'all' || selectedRows.length == 0){
       let isSelected = selectedRows == 'all';
-      tracksSelected = _.map(props.tracks, (track) => {
+      tracksSelected = _.map(props.tracks, (trackId) => {
         return {
-          id: track.id,
+          id: trackId,
           isSelected: isSelected
         }
       });
     } else {
       let index = 0;
-      tracksSelected = _.map(props.tracks, (track) => {
+      tracksSelected = _.map(props.tracks, (trackId) => {
         let selectedTrack = {
-          id: track.id,
+          id: trackId,
           isSelected: _.find(selectedRows, (rowIndex) => rowIndex === index) != undefined
         };
         index += 1;
@@ -37,8 +37,8 @@ export default class CurrentPlaylist extends Component {
     props.onTrackSelect(tracksSelected);
   }
   render () {
-    let playlistTracks = this.props.playlist.tracks;
-    let tracks = this.props.tracks;
+    let playlistTracks = this.props.tracks;
+    let tracks = this.props.allTracks;
     let trackRows = _.map(playlistTracks, (trackId) => {
       var track = tracks[trackId];
       return <TableRow key={trackId} selected={track.isSelected}>
