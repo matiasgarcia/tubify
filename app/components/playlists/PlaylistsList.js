@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import { ListItem } from 'material-ui/List';
-import SelectableList from './SelectableList'
+import SelectableList from '../SelectableList'
 
 export default class PlaylistsList extends Component {
   static propTypes = {

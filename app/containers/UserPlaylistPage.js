@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchUserPlaylists, fetchPlaylistTracks } from '../actions/playlists';
 import { searchTrack, downloadTrack, selectTrack } from '../actions/tracks';
-import UserPlaylist from '../components/UserPlaylist';
+import UserPlaylist from '../components/playlists/UserPlaylist';
 
 function mapStateToProps(state) {
   return {

@@ -4,8 +4,8 @@ import { Row, Col } from 'react-flexbox-grid/lib/index';
 import _ from 'lodash';
 import PlaylistsList from './PlaylistsList';
 import CurrentPlaylist from './CurrentPlaylist';
-import PlaylistTracksLoader from './PlaylistTracksLoader';
-import PlaylistsLoader from './PlaylistsLoader';
+import PlaylistTracksLoader from '../loaders/PlaylistTracksLoader';
+import PlaylistsLoader from '../loaders/PlaylistsLoader';
 
 export default class UserPlaylist extends Component {
   static propTypes = {

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { searchTrack, downloadTrack, selectTrack } from '../actions/tracks';
-import TrackProcessing from '../components/TrackProcessing';
+import TrackProcessing from '../components/tracks/TrackProcessing';
 
 function mapStateToProps(state) {
   return {
