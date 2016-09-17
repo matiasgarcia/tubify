@@ -58,7 +58,7 @@ export function getRefreshedAccessToken(options, refreshToken){
       return getStoredAuthData()
         .then((oldStoredAuthData) => {
           let refreshedAuthData = Object.assign({}, oldStoredAuthData);
-          refreshedAuthData.tokenData = Object.assign({}, refreshedAuthData, newAccessTokenData);
+          Object.assign(refreshedAuthData.tokenData, newAccessTokenData);
           return getAuthData(refreshedAuthData.tokenData);
         })
     })
