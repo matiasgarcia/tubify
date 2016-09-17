@@ -1,26 +1,51 @@
 import React, { Component, PropTypes } from 'react';
-import { Row, Col } from 'react-flexbox-grid/lib/index';
+import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
+import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
-import SelectableTracksTable from './SelectableTracksTable';
+import TracksDownloadTable from './TracksDownloadTable';
 
 export default class TrackProcessing extends Component {
   static propTypes = {
+    tracks: PropTypes.object.isRequired,
     tracksSearch: PropTypes.object.isRequired,
-    tracks: PropTypes.object.isRequired
+    trackDownloads: PropTypes.object.isRequired,
+    trackActions: PropTypes.object.isRequired
   };
-  render() {
+  constructor(props) {
+    super(props);
+    this.searchTracks = this.searchTracks.bind(this);
+    this.getSelectedTracks = this.getSelectedTracks.bind(this);
+  }
+  searchTracks(e) {
+    e.preventDefault();
+    let searchTrack = this.props.trackActions.searchTrack;
+    _.each(this.getSelectedTracks(), (track) => searchTrack(track));
+  }
+  getSelectedTracks() {
     let selectedTracks = [];
     _.each(this.props.tracks, (track) => {
-      if(track.isSelected){
-        selectedTracks.push(track.id);
-      }
+      if(track.isSelected) selectedTracks.push(track);
     });
+    return selectedTracks;
+  }
+  render() {
     return (
-      <Row>
-        <Col md={12}>
-          <SelectableTracksTable tracks={selectedTracks} allTracks={this.props.tracks} onTrackSelect={() => 1}/>
-        </Col>
-      </Row>
+      <Grid>
+        <Row>
+          <Col mdOffset={10} md={2}>
+            <RaisedButton label="Search all tracks..." primary onClick={this.searchTracks}/>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <TracksDownloadTable
+              tracks={this.getSelectedTracks()}
+              tracksSearch={this.props.tracksSearch}
+              trackDownloads={this.props.trackDownloads}
+              onTrackDownloadClick={this.props.trackActions.downloadTrack}/>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

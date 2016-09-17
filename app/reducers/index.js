@@ -5,6 +5,7 @@ import playlists from './playlists'
 import trackSearch from './trackSearcher'
 import apiMeta from './apiMeta'
 import tracks from './tracks'
+import trackDownloads from './trackDownloads'
 
 const rootReducer = combineReducers({
   auth,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   trackSearch,
   apiMeta,
   tracks,
+  trackDownloads,
   routing
 });
 

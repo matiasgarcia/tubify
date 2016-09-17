@@ -7,7 +7,8 @@ import TrackProcessing from '../components/tracks/TrackProcessing';
 function mapStateToProps(state) {
   return {
     tracksSearch: state.trackSearch,
-    tracks: state.tracks
+    tracks: state.tracks,
+    trackDownloads: state.trackDownloads
   };
 }
 
