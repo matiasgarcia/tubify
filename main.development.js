@@ -52,6 +52,7 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({ width: 1024, height: 768, show: false, 'node-integration': false });
   mainWindow.userConfig = config;
+  mainWindow.maximize();
 
   authenticationHandler.getStoredAuthData()
     .then((authenticationData) => {
