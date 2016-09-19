@@ -1,8 +1,9 @@
 import { YoutubeSearcher } from './searchers';
 import { YoutubeDownloader } from './downloaders';
+import { YOUTUBE } from './constants';
 
 export default function loadEvents(config, ipcMain){
-  const youtubeSearcher = new YoutubeSearcher({apiKey: 'AIzaSyBaoeeDj56V4Y6s43qW3mEf8XzHKJ-bIjs'});
+  const youtubeSearcher = new YoutubeSearcher({apiKey: YOUTUBE.API_KEY});
   const youtubeDownloader = new YoutubeDownloader({downloadPath: config.downloadPath});
 
 	ipcMain.on('search-track', (event, track) => {
