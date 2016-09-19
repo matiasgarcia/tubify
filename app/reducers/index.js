@@ -6,6 +6,7 @@ import trackSearch from './trackSearcher'
 import apiMeta from './apiMeta'
 import tracks from './tracks'
 import trackDownloads from './trackDownloads'
+import config from './config'
 
 const rootReducer = combineReducers({
   auth,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   apiMeta,
   tracks,
   trackDownloads,
+  config,
   routing
 });
 

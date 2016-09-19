@@ -66,10 +66,11 @@ export function downloadTrackPending(track){
 	}
 }
 
-export function downloadTrackSuccess(track){
+export function downloadTrackSuccess(track, filePath){
 	return {
 		type: TRACK_DOWNLOAD_SUCCESS,
-		track
+		track,
+    filePath
 	}
 }
 
@@ -85,7 +86,7 @@ export function downloadTrack(track){
 	return (dispatch, getState) => {
 		dispatch(downloadTrackPending(track));
 		requestDownloadTrack(track)
-			.then((track) => dispatch(downloadTrackSuccess(track)))
+			.then(({track, filePath}) => dispatch(downloadTrackSuccess(track, filePath)))
 			.catch(({error, track}) => dispatch(downloadTrackFailure(error, track)))
 	}
 

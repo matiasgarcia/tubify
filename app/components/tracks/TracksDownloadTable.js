@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import { openInFileExplorer } from '../../utils/interactions';
 import _ from 'lodash';
 
 export default class TracksDownloadTable extends Component {
@@ -21,6 +22,10 @@ export default class TracksDownloadTable extends Component {
   handleTrackDownload(trackId, trackSearchInfo, event) {
     event.preventDefault();
     this.props.onTrackDownloadClick({id: trackId, url: trackSearchInfo.results[0].url})
+  }
+  handleOpenTrack(filePath, event) {
+    event.preventDefault();
+    openInFileExplorer(filePath);
   }
   displaySearchStatus(trackId){
     let searchedTracks = this.props.tracksSearch;
@@ -46,7 +51,7 @@ export default class TracksDownloadTable extends Component {
       } else if (foundTrack.isFetching) {
         return <CircularProgress size={0.5}/>;
       } else if (foundTrack.downloaded) {
-        return "Downloaded!";
+        return <RaisedButton secondary label="Open" onClick={this.handleOpenTrack.bind(null, foundTrack.filePath)}/>;
       }
     }
     return "Not downloaded yet."

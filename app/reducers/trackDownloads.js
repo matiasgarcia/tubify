@@ -17,7 +17,8 @@ function trackDownloadSuccess(state, action){
   updatedState[trackId] = Object.assign({}, state[trackId], {
     downloaded: true,
     isFetching: false,
-    error: null
+    error: null,
+    filePath: action.filePath
   });
   return Object.assign({}, state, updatedState);
 }

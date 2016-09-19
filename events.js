@@ -14,7 +14,7 @@ export default function loadEvents(config, ipcMain){
 
 	ipcMain.on('download-track', (event, track) => {
 		youtubeDownloader.download(track.url)
-			.then((stdout) => event.sender.send('download-track-done', null, track))
-			.catch(({error, stderr}) => event.sender.send('download-track-done', error, track))
+			.then(({filePath}) => event.sender.send('download-track-done', track, filePath))
+			.catch(({error, stderr}) => event.sender.send('download-track-failed', error, track))
 	})
 }

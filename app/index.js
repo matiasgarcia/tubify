@@ -8,11 +8,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import { getStoredAuthData } from './utils/authenticationHandler';
+import { remote } from 'electron';
 
 injectTapEventPlugin();
 
 const initializePage = function (auth){
-  const store = configureStore({auth});
+  let userConfig = remote.getCurrentWindow().userConfig;
+  const store = configureStore({auth, config: userConfig});
   const history = syncHistoryWithStore(hashHistory, store);
 
   render(

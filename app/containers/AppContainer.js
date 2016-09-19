@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as AuthActions from '../actions/auth';
-import App from '../components/App'
+import App from '../components/App';
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
