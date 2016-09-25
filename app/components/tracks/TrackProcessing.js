@@ -19,7 +19,12 @@ export default class TrackProcessing extends Component {
   searchTracks(e) {
     e.preventDefault();
     let searchTrack = this.props.trackActions.searchTrack;
-    _.each(this.getSelectedTracks(), (track) => searchTrack(track));
+    let tracksSearch = this.props.tracksSearch;
+    _.each(this.getSelectedTracks(), (track) => {
+      if (tracksSearch[track.id] === undefined || tracksSearch[track.id].error !== null){
+        searchTrack(track)
+      }
+    });
   }
   getSelectedTracks() {
     let selectedTracks = [];
