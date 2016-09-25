@@ -9,8 +9,8 @@ export default function loadEvents(config, ipcMain){
 	ipcMain.on('search-track', (event, track) => {
 	  let query = `${track.artists.join(', ')} - ${track.name} `;
 	  youtubeSearcher.search(query)
-	    .then((sources) => event.sender.send('search-track-done', null, track, sources))
-	    .catch((error) => event.sender.send('search-track-done', error, track))
+	    .then((sources) => event.sender.send('search-track-done', track, sources))
+	    .catch((error) => event.sender.send('search-track-failed', error, track))
 	});
 
 	ipcMain.on('download-track', (event, track) => {
