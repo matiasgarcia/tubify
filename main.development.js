@@ -5,6 +5,7 @@ import loadEvents from './events'
 import { config } from './config'
 import { SPOTIFY } from './constants';
 
+ipcMain.setMaxListeners(Infinity);
 loadEvents(config, ipcMain);
 
 let menu;

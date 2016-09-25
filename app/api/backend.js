@@ -1,6 +1,8 @@
 import { ipcRenderer } from 'electron';
 import * as eventNames from '../../eventNames';
 
+ipcRenderer.setMaxListeners(Infinity);
+
 export function requestSearchTrack(trackToSearch){
   return new Promise((resolve, reject) => {
     ipcRenderer.send(eventNames.SEARCH_TRACK, trackToSearch);
