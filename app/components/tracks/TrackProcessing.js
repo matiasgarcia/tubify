@@ -16,6 +16,18 @@ export default class TrackProcessing extends Component {
     this.searchTracks = this.searchTracks.bind(this);
     this.getSelectedTracks = this.getSelectedTracks.bind(this);
   }
+  downloadTracks(e) {
+    e.preventDefault();
+    let downloadTrack = this.props.trackActions.downloadTrack;
+    let trackDownloads = this.props.trackDownloads;
+    let tracksSearch = this.props.tracksSearch;
+    _.each(this.getSelectedTracks(), (track) => {
+      if (trackDownloads[track.id] === undefined || trackDownloads[track.id].error !== null){
+        let trackSearchInfo = tracksSearch[track.id];
+        downloadTrack({id: track.id, url: trackSearchInfo.results[0].url});
+      }
+    });
+  }
   searchTracks(e) {
     e.preventDefault();
     let searchTrack = this.props.trackActions.searchTrack;
@@ -37,8 +49,9 @@ export default class TrackProcessing extends Component {
     return (
       <Grid>
         <Row>
-          <Col mdOffset={10} md={2}>
-            <RaisedButton label="Search all tracks..." primary onClick={this.searchTracks}/>
+          <Col>
+            <RaisedButton label="Search all" primary onClick={this.searchTracks}/>
+            <RaisedButton label="Download all" secondary onClick={this.downloadTracks}/>
           </Col>
         </Row>
         <Row>
