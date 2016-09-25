@@ -1,14 +1,15 @@
 import { ipcRenderer } from 'electron';
+import * as eventNames from '../../eventNames';
 
 export function requestSearchTrack(trackToSearch){
   return new Promise((resolve, reject) => {
-    ipcRenderer.send('search-track', trackToSearch);
-    ipcRenderer.on('search-track-done', (event, track, exportData) => {
+    ipcRenderer.send(eventNames.SEARCH_TRACK, trackToSearch);
+    ipcRenderer.on(eventNames.SEARCH_TRACK_DONE, (event, track, exportData) => {
       if(trackToSearch.id == track.id){
         resolve({track, exportData})
       }
     });
-    ipcRenderer.on('search-track-failed', (event, error, track) => {
+    ipcRenderer.on(eventNames.SEARCH_TRACK_FAILED, (event, error, track) => {
       if(trackToSearch.id == track.id){
         reject({error, track});
       }
@@ -18,13 +19,13 @@ export function requestSearchTrack(trackToSearch){
 
 export function requestDownloadTrack(trackToDownload){
   return new Promise((resolve, reject) => {
-    ipcRenderer.send('download-track', trackToDownload);
-    ipcRenderer.on('download-track-done', (event, track, filePath) => {
+    ipcRenderer.send(eventNames.DOWNLOAD_TRACK, trackToDownload);
+    ipcRenderer.on(eventNames.DOWNLOAD_TRACK_DONE, (event, track, filePath) => {
       if(trackToDownload.id == track.id){
         resolve({track, filePath})
       }
     });
-    ipcRenderer.on('download-track-failed', (event, error, track) => {
+    ipcRenderer.on(eventNames.DOWNLOAD_TRACK_FAILED, (event, error, track) => {
       if(trackToDownload.id == track.id) {
         reject({error, track})
       }
