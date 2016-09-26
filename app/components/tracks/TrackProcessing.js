@@ -14,14 +14,30 @@ export default class TrackProcessing extends Component {
   constructor(props) {
     super(props);
     this.searchTracks = this.searchTracks.bind(this);
-    this.getSelectedTracks = this.getSelectedTracks.bind(this);
+    this.setSelectedTracks = this.setSelectedTracks.bind(this);
+  }
+  componentWillMount(){
+    this.setSelectedTracks(this.props.tracks);
+  }
+  componentWillReceiveProps(nextProps){
+    let oldProps = this.props;
+    if(oldProps.tracks !== nextProps.tracks){
+      this.setSelectedTracks(nextProps.tracks);
+    }
+  }
+  setSelectedTracks(tracks){
+    let selectedTracks = [];
+    _.each(tracks, (track) => {
+      if(track.isSelected) selectedTracks.push(track);
+    });
+    this.setState({selectedTracks});
   }
   downloadTracks(e) {
     e.preventDefault();
     let downloadTrack = this.props.trackActions.downloadTrack;
     let trackDownloads = this.props.trackDownloads;
     let tracksSearch = this.props.tracksSearch;
-    _.each(this.getSelectedTracks(), (track) => {
+    _.each(this.state.selectedTracks, (track) => {
       if (trackDownloads[track.id] === undefined || trackDownloads[track.id].error !== null){
         let trackSearchInfo = tracksSearch[track.id];
         downloadTrack({id: track.id, url: trackSearchInfo.results[0].url});
@@ -32,18 +48,11 @@ export default class TrackProcessing extends Component {
     e.preventDefault();
     let searchTrack = this.props.trackActions.searchTrack;
     let tracksSearch = this.props.tracksSearch;
-    _.each(this.getSelectedTracks(), (track) => {
+    _.each(this.state.selectedTracks, (track) => {
       if (tracksSearch[track.id] === undefined || tracksSearch[track.id].error !== null){
         searchTrack(track)
       }
     });
-  }
-  getSelectedTracks() {
-    let selectedTracks = [];
-    _.each(this.props.tracks, (track) => {
-      if(track.isSelected) selectedTracks.push(track);
-    });
-    return selectedTracks;
   }
   render() {
     return (
@@ -57,7 +66,7 @@ export default class TrackProcessing extends Component {
         <Row>
           <Col md={12}>
             <TracksDownloadTable
-              tracks={this.getSelectedTracks()}
+              tracks={this.state.selectedTracks}
               tracksSearch={this.props.tracksSearch}
               trackDownloads={this.props.trackDownloads}
               onTrackDownloadClick={this.props.trackActions.downloadTrack}/>
