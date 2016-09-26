@@ -15,6 +15,7 @@ export default class TrackProcessing extends Component {
     super(props);
     this.searchTracks = this.searchTracks.bind(this);
     this.setSelectedTracks = this.setSelectedTracks.bind(this);
+    this.downloadTracks = this.downloadTracks.bind(this);
   }
   componentWillMount(){
     this.setSelectedTracks(this.props.tracks);
