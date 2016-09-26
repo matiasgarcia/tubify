@@ -55,12 +55,14 @@ export default class TrackProcessing extends Component {
     });
   }
   render() {
+    let disabledDownload = _.some(this.props.trackDownloads, (track) => track.isFetching);
+    let disabledSearch = _.some(this.props.tracksSearch, (track) => track.isFetching);
     return (
       <Grid>
         <Row>
           <Col>
-            <RaisedButton label="Search all" primary onClick={this.searchTracks}/>
-            <RaisedButton label="Download all" secondary onClick={this.downloadTracks}/>
+            <RaisedButton label="Search all" primary disabled={disabledSearch} onClick={this.searchTracks}/>
+            <RaisedButton label="Download all" secondary disabled={disabledDownload} onClick={this.downloadTracks}/>
           </Col>
         </Row>
         <Row>
