@@ -10,12 +10,12 @@ export default class App extends Component {
   };
   render() {
     return (
-      <Grid>
+      <div>
         <Row>
           <Menu user={this.props.auth.userData} config={this.props.config}/>
         </Row>
         {this.props.children}
-      </Grid>
+      </div>
     );
   }
 }

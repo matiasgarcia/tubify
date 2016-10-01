@@ -59,7 +59,7 @@ export default class TrackProcessing extends Component {
     let disabledDownload = _.some(this.props.trackDownloads, (track) => track.isFetching);
     let disabledSearch = _.some(this.props.tracksSearch, (track) => track.isFetching);
     return (
-      <Grid>
+      <Col sm={12}>
         <Row>
           <Col>
             <RaisedButton label="Search all" primary disabled={disabledSearch} onClick={this.searchTracks}/>
@@ -67,15 +67,13 @@ export default class TrackProcessing extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={12}>
-            <TracksDownloadTable
-              tracks={this.state.selectedTracks}
-              tracksSearch={this.props.tracksSearch}
-              trackDownloads={this.props.trackDownloads}
-              onTrackDownloadClick={this.props.trackActions.downloadTrack}/>
-          </Col>
+          <TracksDownloadTable
+            tracks={this.state.selectedTracks}
+            tracksSearch={this.props.tracksSearch}
+            trackDownloads={this.props.trackDownloads}
+            onTrackDownloadClick={this.props.trackActions.downloadTrack}/>
         </Row>
-      </Grid>
+      </Col>
     );
   }
 }
