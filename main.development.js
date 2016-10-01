@@ -1,9 +1,9 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import _ from 'lodash';
-import * as authenticationHandler from './app/utils/authenticationHandler'
-import loadEvents from './events'
+import * as authenticationHandler from './frontend/utils/authenticationHandler'
+import loadEvents from './backend/events'
 import { config } from './config'
-import { SPOTIFY } from './constants';
+import { SPOTIFY } from './backend/constants';
 
 ipcMain.setMaxListeners(Infinity);
 loadEvents(config, ipcMain);
@@ -38,7 +38,7 @@ const installExtensions = async () => {
 };
 
 function loadApp(window){
-  window.loadURL(`file://${__dirname}/app/app.html`);
+  window.loadURL(`file://${__dirname}/frontend/app.html`);
   window.show();
 }
 

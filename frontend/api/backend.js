@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import * as eventNames from '../../eventNames';
+import * as eventNames from '../../backend/eventNames';
 
 ipcRenderer.setMaxListeners(Infinity);
 

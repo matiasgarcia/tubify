@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import trackSearch from '../../app/reducers/trackSearcher';
-import { TRACK_SEARCH, TRACK_FOUND, TRACK_NOT_FOUND, TRACK_DOWNLOAD_PENDING, TRACK_DOWNLOAD_SUCCESS, TRACK_DOWNLOAD_FAILURE } from '../../app/actions/tracks';
+import trackSearch from '../../frontend/reducers/trackSearcher';
+import { TRACK_SEARCH, TRACK_FOUND, TRACK_NOT_FOUND, TRACK_DOWNLOAD_PENDING, TRACK_DOWNLOAD_SUCCESS, TRACK_DOWNLOAD_FAILURE } from '../../frontend/actions/tracks';
 
 describe('reducers', () => {
   describe('trackSearch', () => {

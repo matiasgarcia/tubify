@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import playlists from '../../app/reducers/playlists';
-import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../../app/actions/playlists';
+import playlists from '../../frontend/reducers/playlists';
+import { USER_PLAYLIST_CONSTANTS, PLAYLIST_TRACKS_CONSTANTS } from '../../frontend/actions/playlists';
 import { userPlaylistsSuccess, playlistTracks } from '../fixtures/spotifyApi';
 import _ from 'lodash';
 

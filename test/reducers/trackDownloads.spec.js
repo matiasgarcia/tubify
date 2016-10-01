@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import trackDownloads from '../../app/reducers/trackDownloads';
-import { downloadTrackPending, downloadTrackSuccess, downloadTrackFailure } from '../../app/actions/tracks';
+import trackDownloads from '../../frontend/reducers/trackDownloads';
+import { downloadTrackPending, downloadTrackSuccess, downloadTrackFailure } from '../../frontend/actions/tracks';
 
 describe('reducers', () => {
   describe('trackDownloads', () => {

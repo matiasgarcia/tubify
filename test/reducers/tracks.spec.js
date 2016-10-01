@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import tracks from '../../app/reducers/tracks';
-import { PLAYLIST_TRACKS_CONSTANTS } from '../../app/actions/playlists';
-import { TRACK_SELECT } from '../../app/actions/tracks';
+import tracks from '../../frontend/reducers/tracks';
+import { PLAYLIST_TRACKS_CONSTANTS } from '../../frontend/actions/playlists';
+import { TRACK_SELECT } from '../../frontend/actions/tracks';
 import { playlistTracks } from '../fixtures/spotifyApi'
 
 describe('reducers', () => {
