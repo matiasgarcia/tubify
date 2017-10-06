@@ -6,13 +6,13 @@ import { openInFileExplorer } from '../../utils/interactions';
 
 export default class TrackRow extends PureComponent {
   static propTypes = {
+    id: PropTypes.number.isRequired,
     track: PropTypes.shape({
       id: PropTypes.string,
       artists: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    tracks: PropTypes.array.isRequired,
-    tracksSearch: PropTypes.object.isRequired,
-    trackDownloads: PropTypes.object.isRequired,
+    trackSearch: PropTypes.object.isRequired,
+    trackDownload: PropTypes.object.isRequired,
     onTrackDownloadClick: PropTypes.func.isRequired
   };
   constructor(props) {
@@ -30,8 +30,7 @@ export default class TrackRow extends PureComponent {
     openInFileExplorer(filePath);
   }
   displaySearchStatus(trackId){
-    let searchedTracks = this.props.tracksSearch;
-    let foundTrack = searchedTracks[trackId];
+    let foundTrack = this.props.trackSearch;
     if (foundTrack){
       if (foundTrack.error){
         return "An error occurred";
@@ -45,8 +44,7 @@ export default class TrackRow extends PureComponent {
     }
   }
   displayDownloadStatus(trackId){
-    let trackDownloads = this.props.trackDownloads;
-    let foundTrack = trackDownloads[trackId];
+    let foundTrack = this.props.trackDownload;
     if (foundTrack){
       if (foundTrack.error){
         return "An error occurred";

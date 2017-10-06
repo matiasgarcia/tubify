@@ -67,11 +67,7 @@ export default class TrackProcessing extends Component {
           </Col>
         </Row>
         <Row>
-          <TracksDownloadTable
-            tracks={this.state.selectedTracks}
-            tracksSearch={this.props.tracksSearch}
-            trackDownloads={this.props.trackDownloads}
-            onTrackDownloadClick={this.props.trackActions.downloadTrack}/>
+          <TracksDownloadTable tracks={this.state.selectedTracks}/>
         </Row>
       </Col>
     );
